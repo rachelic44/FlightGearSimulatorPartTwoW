@@ -10,20 +10,20 @@
 #include "Solver.h"
 #include <queue>
 #include "Node.h"
-
+#include "PriorityHeap.h"
 
 template <class Solution,class T>
 class Searcher : public ISearcher<Solution,T> {
 private:
-    priority_queue<Node<T>*, vector<Node<T>*>,greater<Node<T>*>> priorityQueue;
+    PriorityHeap<Node<T>> priorityHeap;
     int evaluateNodes;
 protected:
     virtual Node<T>* popOpenList() {
         evaluateNodes++;
-        priorityQueue.pop();
+        priorityHeap.pop();
     }
     virtual void addToOpen(Node<T>* node) {
-        priorityQueue.push(node);
+        priorityHeap.push(node);
     }
 public:
     Searcher() {
@@ -31,7 +31,7 @@ public:
     }
 
     virtual int getPriorityQueueSize() {
-        return this->priorityQueue.size();
+        return this->priorityHeap.size();
     }
 
     int getNumberOfNodesEvaluated() {

@@ -50,5 +50,6 @@ int main() {
     BestFirstSearch bestFirstSearch;
 
 
+
     return 0;
 }

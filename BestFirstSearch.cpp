@@ -11,6 +11,7 @@ list<Node<string>*> backTrace(Node<string>* isearchable);
 
 /* it is getting an isearchable, this case it is bestForSearch so it is getting a memushkel graph */
 list<Node<string>*> BestFirstSearch::search(Isearchable<string>* isearchable) {
+
     this->addToOpen(isearchable->getInitialState());
     unordered_set<Node<string>*> closed;
     while(this->getPriorityQueueSize()>0) {
@@ -18,6 +19,10 @@ list<Node<string>*> BestFirstSearch::search(Isearchable<string>* isearchable) {
         closed.insert(n);
         if(n==isearchable->getGoalState()) {
             return backTrace(n);
+        }
+        vector<Node<string>*> vecOfNeighbors = isearchable->getAllPossibleStates(n);
+        for(Node<string>* neighbor: vecOfNeighbors) {
+           // if(closed.count(neighbor)!=0 && this.)
         }
     }
 
