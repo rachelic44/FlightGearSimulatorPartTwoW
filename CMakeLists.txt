@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.12)
+project(projectPart2)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(projectPart2 main.cpp MySerialServer.cpp MySerialServer.h Server.h ClientHandler.h MyTestClientHandler.cpp MyTestClientHandler.h Solver.h CasheManager.h A.cpp A.h B.cpp B.h ReverseSolver.cpp ReverseSolver.h ISearcher.h Node.cpp Node.h ISearchable.h Graph.cpp Graph.h BestFirstSearch.cpp BestFirstSearch.h SearchSolver.cpp SearchSolver.h Searcher.h)
