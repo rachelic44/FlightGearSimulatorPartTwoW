@@ -39,8 +39,8 @@ int main() {
     vertexVector.push_back(b);
     vertexVector.push_back(c);
     vertexVector.push_back(d);
-    Graph<string> graph(vertexVector,archMAp);
-    vector<Node<string>*> vecOfNeighbors=graph.getAllPossibleStates(b);
+    Isearchable<string>* graph=new Graph<string> (vertexVector,archMAp);
+    vector<Node<string>*> vecOfNeighbors=graph->getAllPossibleStates(b);
     cout<<"G";
 
     PriorityHeap<string> p;
