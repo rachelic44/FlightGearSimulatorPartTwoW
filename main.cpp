@@ -9,6 +9,7 @@
 #include "Graph.h"
 #include <queue>
 #include "BestFirstSearch.h"
+#include "C.h"
 
 using namespace std;
 
@@ -42,14 +43,39 @@ int main() {
     vector<Node<string>*> vecOfNeighbors=graph.getAllPossibleStates(b);
     cout<<"G";
 
+    PriorityHeap<string> p;
+    p.push(a);
+    p.push(b);
+  //  p.remove(b);
 
     Node<int> t(6);
-    cout<<t;
+    cout<<t<<endl;
 
 
     BestFirstSearch bestFirstSearch;
 
 
+    cout<<endl;
+    C<int> queue;
+
+    queue.push(10);
+    queue.push(2);
+    queue.push(4);
+    queue.push(6);
+    queue.push(3);
+
+    queue.remove(6);
+
+    while (!queue.empty())
+    {
+        std::cout << queue.top();
+        queue.pop();
+
+        if (!queue.empty())
+        {
+            std::cout << ", ";
+        }
+    }
 
     return 0;
 }

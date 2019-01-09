@@ -22,7 +22,9 @@ list<Node<string>*> BestFirstSearch::search(Isearchable<string>* isearchable) {
         }
         vector<Node<string>*> vecOfNeighbors = isearchable->getAllPossibleStates(n);
         for(Node<string>* neighbor: vecOfNeighbors) {
-           // if(closed.count(neighbor)!=0 && this.)
+            if( (closed.count(neighbor)==0) && (!this->contains(neighbor))) {
+                cout<<"G";
+            }
         }
     }
 

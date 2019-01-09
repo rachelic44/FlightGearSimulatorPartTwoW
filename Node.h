@@ -13,7 +13,7 @@ class Node {
 
 private:
     T nodeData;
-    double cost;
+    double cost=0;
     Node<T>* cameFrom;
 public:
     Node<T>() {

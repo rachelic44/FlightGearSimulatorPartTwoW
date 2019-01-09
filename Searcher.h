@@ -15,15 +15,19 @@
 template <class Solution,class T>
 class Searcher : public ISearcher<Solution,T> {
 private:
-    PriorityHeap<Node<T>> priorityHeap;
+    PriorityHeap<T> priorityHeap;
     int evaluateNodes;
 protected:
     virtual Node<T>* popOpenList() {
         evaluateNodes++;
         priorityHeap.pop();
+
     }
     virtual void addToOpen(Node<T>* node) {
-        priorityHeap.push(node);
+        this->priorityHeap.push(node);
+    }
+    virtual bool contains( Node<string>* node) {
+        return this->priorityHeap.exist(node);
     }
 public:
     Searcher() {
@@ -34,9 +38,10 @@ public:
         return this->priorityHeap.size();
     }
 
-    int getNumberOfNodesEvaluated() {
+    int getNumberOfNodesEvaluated() { //not virtual in porpuse
         return this->evaluateNodes;
     }
+
 
     virtual Solution search(Isearchable<T>* isearchable) = 0;
 
