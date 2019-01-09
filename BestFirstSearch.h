@@ -11,7 +11,7 @@
 #include <list>
 #include "Searcher.h"
 
-class BestFirstSearch : public Searcher<list<Node<string>*>,string> {
+class BestFirstSearch : public Searcher<list<Node<string> *>,string> {
 
     virtual list<Node<string>*> search(Isearchable<string>* isearchable);
 };

@@ -24,7 +24,13 @@ list<Node<string>*> BestFirstSearch::search(Isearchable<string>* isearchable) {
         vector<Node<string>*> vecOfNeighbors = isearchable->getAllPossibleStates(n); //each searchable (matrix, graph..) is doing it differently
         for(Node<string>* neighbor: vecOfNeighbors) {
             if( (closed.count(neighbor)==0) && (!this->contains(neighbor))) {
-
+                neighbor->setCameFrom(n);
+                neighbor->setCost(neighbor->getCost()+n->getCost());
+                addToOpen(neighbor);
+            } else {
+                if(!this->contains(neighbor)) {
+                    addToOpen(neighbor);
+                }
             }
         }
     }

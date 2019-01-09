@@ -1,5 +1,5 @@
 
-
+/*
 #ifndef PROJECTPART2_PRIORITYHEAP_H
 #define PROJECTPART2_PRIORITYHEAP_H
 #include <queue>
@@ -58,9 +58,14 @@ public:
     int size() {
         return this->nodesVector.size();
     }
-};
+};*/
 
-/*
+
+#ifndef PROJECTPART2_PRIORITYHEAP_H
+#define PROJECTPART2_PRIORITYHEAP_H
+#include <queue>
+#include <iostream>
+#include "Node.h"
 template<class InputIterator, class T>
 InputIterator finder (InputIterator first, InputIterator last, const T& val)
 {
@@ -73,15 +78,18 @@ InputIterator finder (InputIterator first, InputIterator last, const T& val)
 
 
 template <class T>
-struct greaterPP : binary_function <Node<T>*,Node<T>*,bool> {
-    bool operator() (const Node<T>*& x, const Node<T>*& y) const {return x<y;}
+struct greaterThan : binary_function <T, T, bool> {
+    bool operator() (const T& x, const T& y) const {
+        return *x>*y;
+        //return x->getNodeData()<y->getNodeData();
+    }
 };
 
 
 template <typename T>
-class PriorityHeap : public priority_queue<Node<T>*, vector<Node<T>*>,greaterPP<Node<T>*>> {
+class PriorityHeap : public priority_queue<Node<T>*, vector<Node<T>*>,greaterThan<Node<T>*>> {
 public:
-    bool remove(const Node<T>*  value) const {
+    bool remove( Node<T>*  value)  {
         auto it = finder(this->c.begin(), this->c.end(), value);
         if (it != this->c.end()) {
             this->c.erase(it);
@@ -92,7 +100,7 @@ public:
             return false;
         }
     }
-    bool exist( Node<T>*  value) const {
+    bool contains( Node<T>*  value) const {
         auto it = finder(this->c.begin(), this->c.end(), value);
         if (it != this->c.end()) {
             return true;
@@ -102,6 +110,6 @@ public:
 
 };
 
-*/
+
 
 #endif //PROJECTPART2_PRIORITYHEAP_H

@@ -12,7 +12,7 @@
 #include "Node.h"
 #include "PriorityHeap.h"
 
-template <class Solution,class T>
+template <class Solution, class T>
 class Searcher : public ISearcher<Solution,T> {
 private:
     PriorityHeap<T> priorityHeap;

@@ -21,7 +21,7 @@ InputIterator findS (InputIterator first, InputIterator last, const T& val)
 
 template <class T>
 struct greaterP : binary_function <T,T,bool> {
-    bool operator() (const T& x, const T& y) const {return x<y;}
+    bool operator() (const T& x, const T& y) const {return x>y;}
 };
 
 template<typename T>

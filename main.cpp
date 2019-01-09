@@ -46,10 +46,17 @@ int main() {
     PriorityHeap<string> p;
     p.push(a);
     p.push(b);
-  //  p.remove(b);
+   // p.remove(b);
 
     Node<int> t(6);
     cout<<t<<endl;
+    cout<<p.size()<< " " <<p.top()->getNodeData()<<" ";
+    p.pop();
+    cout<<p.size()<< " " <<p.top()->getNodeData();
+    p.pop();
+
+    cout<< " " << p.size();
+
 
 
     BestFirstSearch bestFirstSearch;
