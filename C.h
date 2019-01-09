@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <queue>
+using namespace std;
 
 template<class InputIterator, class T>
 InputIterator findS (InputIterator first, InputIterator last, const T& val)
@@ -18,8 +19,13 @@ InputIterator findS (InputIterator first, InputIterator last, const T& val)
     return last;
 }
 
+template <class T>
+struct greaterP : binary_function <T,T,bool> {
+    bool operator() (const T& x, const T& y) const {return x<y;}
+};
+
 template<typename T>
-class C : public std::priority_queue<T, std::vector<T>,std::greater<T>>
+class C : public std::priority_queue<T, std::vector<T>,greaterP<T>>
 {
   public:
 

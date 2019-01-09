@@ -1,50 +1,66 @@
-//
-// Created by user on 09/01/19.
-//
-/*
+
+
 #ifndef PROJECTPART2_PRIORITYHEAP_H
 #define PROJECTPART2_PRIORITYHEAP_H
-
 #include <queue>
 #include <iostream>
 #include "Node.h"
 using namespace std;
 
-template <class T>
-class PriorityHeap{
-
+template <typename T>
+class PriorityHeap {
 private:
-    priority_queue<Node<T>*, vector<Node<T>*>,greater<Node<T>*>> priorityQueue;
-    priority_queue<Node<T>*, vector<Node<T>*>> priorityQueue2;
+    vector<Node<T>*> nodesVector;
+    Node<T>* current;
 public:
-    PriorityHeap() {
-       priority_queue<Node<T>*, vector<Node<T>*>,greater<Node<T>*>> priorityQueue1;
-       this->priorityQueue=priorityQueue1;
-    }
-    void pop() {
-        this->priorityQueue.pop();
-    }
     void push(Node<T>* node) {
-        this->priorityQueue.push(node);
+        this->nodesVector.push_back(node);
+    }
+    Node<T>* top() {
+        if(nodesVector.size()==0) {
+            throw logic_error("the priority queue is empty");
+        }
+        Node<T>* current= this->nodesVector[0];
+        for(Node<T>* node : this->nodesVector ) {
+            if(node->getCost() < current->getCost()) {
+                current=node;
+            }
+        }
+        this->current=current;
+        return current;
+    }
+
+    void pop() {
+        if(nodesVector.size()==0) {
+            throw logic_error("the priority queue is empty");
+        }
+        Node<T>* current= this->nodesVector[0];
+        int i=0;
+        int place = 0;
+        for(Node<T>* node : this->nodesVector ) {
+            if(node->getCost() < current->getCost()) {
+                current=node;
+                place=i;
+            }
+            i++;
+        }
+        this->current=current;
+        this->nodesVector.erase(nodesVector.begin()+place);
+    }
+    bool contains(Node<T>* other) {
+        for(Node<T>* node : this->nodesVector ) {
+           if(node==other) {
+               return true;
+           }
+        }
+        return false;
     }
     int size() {
-        return this->priorityQueue.size();
-    }
-    bool contains() {
-
+        return this->nodesVector.size();
     }
 };
 
-*/
-
-#ifndef PROJECTPART2_PRIORITYHEAP_H
-#define PROJECTPART2_PRIORITYHEAP_H
-#include <queue>
-#include <iostream>
-#include "Node.h"
-using namespace std;
-
-
+/*
 template<class InputIterator, class T>
 InputIterator finder (InputIterator first, InputIterator last, const T& val)
 {
@@ -57,9 +73,15 @@ InputIterator finder (InputIterator first, InputIterator last, const T& val)
 
 
 template <class T>
-class PriorityHeap : public priority_queue<Node<T>*, vector<Node<T>*>,greater<Node<T>*>> {
+struct greaterPP : binary_function <Node<T>*,Node<T>*,bool> {
+    bool operator() (const Node<T>*& x, const Node<T>*& y) const {return x<y;}
+};
+
+
+template <typename T>
+class PriorityHeap : public priority_queue<Node<T>*, vector<Node<T>*>,greaterPP<Node<T>*>> {
 public:
-    bool remove( Node<T>*  value) const {
+    bool remove(const Node<T>*  value) const {
         auto it = finder(this->c.begin(), this->c.end(), value);
         if (it != this->c.end()) {
             this->c.erase(it);
@@ -80,5 +102,6 @@ public:
 
 };
 
+*/
 
 #endif //PROJECTPART2_PRIORITYHEAP_H

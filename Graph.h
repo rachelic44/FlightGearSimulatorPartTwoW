@@ -14,21 +14,37 @@ using namespace std;
 /**
  * This class represents unordedred Graph
  */
-class Graph : public Isearchable<string> {
+ template <class T>
+class Graph : public Isearchable<T> {
 private:
-    vector<Node<std::string>*> vertexVector;
-    Node<std::string>* target;
-    Node<std::string>* start;
-    //multimap<Node<string>,Node<string>> archMAp;
-    map<pair<Node<string>*,Node<string>*>,double > archMAp;
+    vector<Node<T>*> vertexVector;
+    Node<T>* target;
+    Node<T>* start;
+    //multimap<Node<T>,Node<T>> archMAp;
+    map<pair<Node<T>*,Node<T>*>,double > archMAp;
 public:
-    Graph(  vector<Node<string>*> vertexVector,   map<pair<Node<string>*,Node<string>*>,double > archMAp) {
+    Graph(vector<Node<T>*> vertexVector,   map<pair<Node<T>*,Node<T>*>,double > archMAp) {
         this->vertexVector=vertexVector;
         this->archMAp=archMAp;
     }
-    virtual Node<std::string>* getInitialState();
-    virtual Node<std::string>* getGoalState();
-    virtual std::vector<Node<std::string>*> getAllPossibleStates(Node<std::string>* s);
+    Node<T>* getGoalState() {
+        return this->target;
+    }
+
+    vector<Node<T>*> getAllPossibleStates(Node<T>* s) {
+        vector<Node<T>*> vecOfNeighbors;
+        for(auto pairInMap : this->archMAp) {
+            if(pairInMap.first.first->getNodeData()==s->getNodeData()) {
+                vecOfNeighbors.push_back(pairInMap.first.second);
+            } else if(pairInMap.first.second->getNodeData()==s->getNodeData()) { //taking care of unordered graph. todo
+                vecOfNeighbors.push_back(pairInMap.first.first);
+            }
+        }
+        return vecOfNeighbors;
+    }
+    Node<T>* getInitialState() {
+        return this->start;
+    }
 };
 
 #endif //PROJECTPART2_GRAPH_H

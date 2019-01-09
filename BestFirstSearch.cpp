@@ -20,10 +20,10 @@ list<Node<string>*> BestFirstSearch::search(Isearchable<string>* isearchable) {
         if(n==isearchable->getGoalState()) {
             return backTrace(n);
         }
-        vector<Node<string>*> vecOfNeighbors = isearchable->getAllPossibleStates(n);
+        vector<Node<string>*> vecOfNeighbors = isearchable->getAllPossibleStates(n); //each searchable (matrix, graph..) is doing it differently
         for(Node<string>* neighbor: vecOfNeighbors) {
             if( (closed.count(neighbor)==0) && (!this->contains(neighbor))) {
-                cout<<"G";
+
             }
         }
     }

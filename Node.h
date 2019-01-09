@@ -33,6 +33,9 @@ public:
     void setCost(double cost) {
         this->cost=cost;
     }
+    double getCost() {
+        return this->cost;
+    }
     void setCameFrom(Node<T>* state1) {
         this->cameFrom=state1;
     }
@@ -47,8 +50,14 @@ public:
         }
         return false;
     }
-    bool operator>(const Node<T>& other) const {
-        if( this->getNodeData()>other.getNodeData()) {
+    bool operator>( Node<T> other)  {
+        if( this->cost > other.cost) {
+            return true;
+        }
+        return false;
+    }
+    bool operator<( Node<T> other)  {
+        if( this->cost < other.cost) {
             return true;
         }
         return false;

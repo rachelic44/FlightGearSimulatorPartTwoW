@@ -27,7 +27,7 @@ protected:
         this->priorityHeap.push(node);
     }
     virtual bool contains( Node<string>* node) {
-        return this->priorityHeap.exist(node);
+        return this->priorityHeap.contains(node);
     }
 public:
     Searcher() {
