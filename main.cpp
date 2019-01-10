@@ -92,17 +92,34 @@ int main() {
     Node<pair<int,int>>* B = new Node<pair<int,int>>({0,1});
     B->setStepCost(1);
     vec.push_back(B);
-    Node<pair<int,int>>* C = new Node<pair<int,int>>({1,0});
+    Node<pair<int,int>>* C = new Node<pair<int,int>>({0,2});
     C->setStepCost(2);
     vec.push_back(C);
-    Node<pair<int,int>>* D = new Node<pair<int,int>>({1,1});
+    Node<pair<int,int>>* D = new Node<pair<int,int>>({1,0});
     D->setStepCost(3);
     vec.push_back(D);
-    Matrix* m=new Matrix(vec,A,D);
+    Node<pair<int,int>>* E = new Node<pair<int,int>>({1,1});
+    A->setStepCost(0);
+    vec.push_back(E);
+    Node<pair<int,int>>* F = new Node<pair<int,int>>({1,2});
+    B->setStepCost(1);
+    vec.push_back(F);
+    Node<pair<int,int>>* G = new Node<pair<int,int>>({2,0});
+    C->setStepCost(2);
+    vec.push_back(G);
+    Node<pair<int,int>>* H = new Node<pair<int,int>>({2,1});
+    D->setStepCost(3);
+    vec.push_back(H);
+    Node<pair<int,int>>* I = new Node<pair<int,int>>({2,2});
+    D->setStepCost(3);
+    vec.push_back(I);
+    Matrix* m=new Matrix(vec,A,I);
    // BestFirstSearch bestFirstSearch;
     ISearcher< vector<Node<pair<int,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
-    searcher->search(m);
+    vector<Node<pair<int,int>>*> answer = searcher->search(m);
+    Node<int>* np;
     int i=6;
+
 
     return 0;
 }

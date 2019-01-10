@@ -49,13 +49,11 @@ class BestFirstSearch : public Searcher<vector<Node<T> *>,T> {
                     neighbor->setCameFrom(n);
                     neighbor->setCost(neighbor->getStepCost()+n->getCost());
                     this->addToOpen(neighbor);
-                } else if(neighbor->getCost() > n->getCost()) {
-                    if(!this->contains(neighbor)) {
-                        this->addToOpen(neighbor);
-                    } else {
-                        neighbor->setCost(n->getCost()+neighbor->getStepCost());
+                } else if(closed.count(neighbor)==0) {
+                    if (neighbor->getCameFrom()->getCost() > n->getCost()) {
+                        neighbor->setCameFrom(n);
+                        neighbor->setCost(n->getCost() + neighbor->getStepCost());
                     }
-
                 }
             }
         }
