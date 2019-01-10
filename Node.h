@@ -14,6 +14,7 @@ class Node {
 private:
     T nodeData;
     double cost=0;
+    double steppCost=0;
     Node<T>* cameFrom;
 public:
     Node<T>() {
@@ -25,6 +26,13 @@ public:
     Node<T>(T data, Node<T>*nodeFrom){
         this->nodeData=data;
         this->cameFrom=nodeFrom;
+    }
+
+    void setStepCost(double stepCost){
+        this->steppCost=stepCost;
+    }
+    double getStepCost() {
+        return this->steppCost;
     }
 
     T getNodeData () const {

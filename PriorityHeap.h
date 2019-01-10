@@ -107,6 +107,25 @@ public:
         }
         return false;
     }
+    void setExistingNodeValue(Node<T>* nodeToSetValueTo, double cost) {
+        /* we want to update some object that may be not in top, so pop out untill reaching the goal,
+         * when reching it, change it's value, and push back all those we popped out */
+        vector<Node<T>*> nodesVector;
+        Node<T>* node;
+        while(this->size()!=0) {
+            node=this->top();
+            if(*node==*nodeToSetValueTo)  {
+                for(Node<T>* nodeP : nodesVector ) {
+                    this->push(nodeP);
+                }
+                node->setCost(cost);
+                return;
+            } else {
+                nodesVector.push_back(node);
+                this->pop();
+            }
+        }
+    }
 
 };
 

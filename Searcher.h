@@ -42,6 +42,9 @@ public:
         return this->evaluateNodes;
     }
 
+    virtual void setExistingNodeValue(Node<T>* nodeToSetValueTo, double cost) {
+        priorityHeap.setExistingNodeValue(nodeToSetValueTo,cost);
+    }
 
     virtual Solution search(Isearchable<T>* isearchable) = 0;
 
