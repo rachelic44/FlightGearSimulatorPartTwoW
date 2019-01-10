@@ -10,10 +10,13 @@
 #include "ISearcher.h"
 
 template <class Solution,class T>
-class SearchSolver : public Solver<Isearchable<T>,Solution> {
+class SearchSolver : public Solver<Isearchable<T>*,Solution> {
 private:
     ISearcher<Solution,T>* iSearcher;
 public:
+    SearchSolver( ISearcher<Solution,T>* iSearcherer) {
+        this->iSearcher=iSearcherer;
+    }
     virtual Solution solve(Isearchable<T>* searchableProblem ) {
         return (iSearcher->search(searchableProblem));
     }

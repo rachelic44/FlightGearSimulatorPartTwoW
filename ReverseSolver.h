@@ -14,12 +14,12 @@ class ReverseSolver : public Solver<std::string,std::string> {
 private:
     string s1;
 public:
-    ReverseSolver();
+    ReverseSolver() {}
     virtual string solve(string problem ) {
         string solution = problem;
         int lengthOfProblem = problem.length();
-        for(int i=0;i<problem.length();i++) {
-            solution[lengthOfProblem-i] = problem[i];
+        for(int i=1;i<=problem.length();i++) {
+            solution[lengthOfProblem-i] = problem[i-1];
         }
         return solution;
     }

@@ -11,115 +11,124 @@
 #include "BestFirstSearch.h"
 #include "C.h"
 #include "Matrix.h"
+#include "MySerialServer.h"
+#include "MyTestClientHandler.h"
+#include "ReverseSolver.h"
 
 using namespace std;
 
+#include "SearchSolver.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-
-   /* Node<string>* a=new Node<string>("a");
-    Node<string>* b=new Node<string>("b");
-
-    a->setCameFrom(b);
-    if(*a->getCameFrom()==(*b)) {
-        cout<<"eq";
-    }*/
-
-    Node<string>* a=new Node<string>("a");
-    Node<string>* b=new Node<string>("b");
-    Node<string>* c=new Node<string>("c");
-    Node<string>* d=new Node<string>("d");
-    map<pair<Node<string>*,Node<string>*>,double > archMAp;
-    archMAp.insert({{a,b},5});
-    archMAp.insert({{a,c},3});
-    archMAp.insert({{b,c},2});
-    archMAp.insert({{c,d},6});
-    vector<Node<string>*> vertexVector;
-    vertexVector.push_back(a);
-    vertexVector.push_back(b);
-    vertexVector.push_back(c);
-    vertexVector.push_back(d);
-    Isearchable<string>* graph=new Graph<string> (vertexVector,archMAp);
-    vector<Node<string>*> vecOfNeighbors=graph->getAllPossibleStates(b);
-    cout<<"G";
-
-    PriorityHeap<string> p;
-    p.push(a);
-    p.push(b);
-   // p.remove(b);
-
-    Node<int> t(6);
-    cout<<t<<endl;
-    cout<<p.size()<< " " <<p.top()->getNodeData()<<" ";
-    p.pop();
-    cout<<p.size()<< " " <<p.top()->getNodeData();
-    p.pop();
-
-    cout<< " " << p.size();
-
-
-
-
-
-
-    cout<<endl;
-    C<int> queue;
-
-    queue.push(10);
-    queue.push(2);
-    queue.push(4);
-    queue.push(6);
-    queue.push(3);
-
-    queue.remove(6);
-
-    while (!queue.empty())
-    {
-        std::cout << queue.top();
-        queue.pop();
-
-        if (!queue.empty())
-        {
-            std::cout << ", ";
-        }
-    }
+  /*  std::cout << "Hello, World!" << std::endl;
 
     vector<Node<pair<int,int>>*> vec;
     Node<pair<int,int>>* A = new Node<pair<int,int>>({0,0});
     A->setStepCost(0);
     vec.push_back(A);
     Node<pair<int,int>>* B = new Node<pair<int,int>>({0,1});
-    B->setStepCost(1);
+    B->setStepCost(3);
     vec.push_back(B);
     Node<pair<int,int>>* C = new Node<pair<int,int>>({0,2});
-    C->setStepCost(2);
+    C->setStepCost(0);
     vec.push_back(C);
     Node<pair<int,int>>* D = new Node<pair<int,int>>({1,0});
-    D->setStepCost(3);
+    D->setStepCost(2);
     vec.push_back(D);
     Node<pair<int,int>>* E = new Node<pair<int,int>>({1,1});
-    A->setStepCost(0);
+    E->setStepCost(2);
     vec.push_back(E);
     Node<pair<int,int>>* F = new Node<pair<int,int>>({1,2});
-    B->setStepCost(1);
+    F->setStepCost(3);
     vec.push_back(F);
     Node<pair<int,int>>* G = new Node<pair<int,int>>({2,0});
-    C->setStepCost(2);
+    G->setStepCost(5);
     vec.push_back(G);
     Node<pair<int,int>>* H = new Node<pair<int,int>>({2,1});
-    D->setStepCost(3);
+    H->setStepCost(3);
     vec.push_back(H);
     Node<pair<int,int>>* I = new Node<pair<int,int>>({2,2});
-    D->setStepCost(3);
+    I->setStepCost(1);
     vec.push_back(I);
-    Matrix* m=new Matrix(vec,A,I);
+    Isearchable<pair<int,int>> * m=new Matrix(vec,A,I);
    // BestFirstSearch bestFirstSearch;
-    ISearcher< vector<Node<pair<int,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
-    vector<Node<pair<int,int>>*> answer = searcher->search(m);
+    ISearcher< vector<Node<pair<int ,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+   // vector<Node<pair<int,int>>*> answer = searcher->search(m);
+
+    Solver<Isearchable<pair<int,int>>*, vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
+            new SearchSolver< vector<Node<pair<int,int>>*>,pair<int,int>>(searcher);
+    vector<Node<pair<int,int>>*> answer=solverSearcherTobeSolver->solve(m);
+
+
     Node<int>* np;
     int i=6;
+*/
 
+  MySerialServer mySerialServer;
+  Solver<string,string> * solver=new ReverseSolver();
+
+  ClientHandler* testClientHandler=new MyTestClientHandler(solver);
+  mySerialServer.open(5400,testClientHandler);
 
     return 0;
 }
+
+
+
+
+
+/*
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <errno.h>
+#include <cstdlib>
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    cout << argv[0] << endl;
+    if (argc < 2)	{
+        cout << "Usage: <prog> <port>" << endl;
+        return 1;
+    }
+    int port = atoi(argv[1]);
+    int s = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in serv;
+    serv.sin_addr.s_addr = INADDR_ANY;
+    serv.sin_port = htons(port);
+    serv.sin_family = AF_INET;
+    if (bind(s, (sockaddr *)&serv, sizeof(serv)) < 0)	{
+        cerr << "Bad!" << endl;
+    }
+
+    int new_sock;
+    listen(s, 5);
+    struct sockaddr_in client;
+    socklen_t clilen = sizeof(client);
+
+    timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+
+    setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+
+    new_sock = accept(s, (struct sockaddr*)&client, &clilen);
+    if (new_sock < 0)	{
+        if (errno == EWOULDBLOCK || errno ==EAGAIN)	{
+            cout << "timeout!" << endl;
+            exit(2);
+        }	else	{
+            perror("other error");
+            exit(3);
+        }
+    }
+    cout << new_sock << endl;
+    cout << s << endl;
+    close(new_sock);
+    close(s);
+    return 0;
+}
+*/

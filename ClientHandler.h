@@ -7,7 +7,7 @@
 
 class ClientHandler {
 public:
-    virtual void handleClient() = 0 ;
+    virtual void handleClient(int sockClientNumber) = 0 ;
 };
 
 #endif //PROJECTPART2_CLIENTHANDLER_Hmain

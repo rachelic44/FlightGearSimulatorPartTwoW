@@ -14,8 +14,7 @@ using namespace std;
 using namespace server_side;
 
 class MySerialServer : public Server {
-
-
+public:
     virtual void open(int portNumber, ClientHandler* clientHandler);
     virtual void stop(int);
 };

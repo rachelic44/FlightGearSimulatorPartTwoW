@@ -6,16 +6,17 @@
 #include <unistd.h>
 #include "MySerialServer.h"
 #include <fcntl.h>
+#include <string.h>
+
 
 void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
 
 
-
-    std::string tillNewLine ; /* The set of  data. */
-    std::string dataRead    ; /* The un-used data. */
+    std::string tillNewLine; /* The set of  data. */
+    std::string dataRead; /* The un-used data. */
     char buffer[1024];        /* The data we currently read. */
     int readBytes;            /* The bytes we currently read. */
-    int sockfd, newsockfd, portno, clilen;
+    int sockfd, newsockfd, portno, clilent;
     struct sockaddr_in serv_addr{}, cli_addr{};
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -23,7 +24,7 @@ void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
         perror("ERROR opening socket");
         exit(1);
     }
-    fcntl(sockfd,F_SETFL,O_NONBLOCK);
+
 
     /* Initialize socket structure */
     bzero((char *) &serv_addr, sizeof(serv_addr));
@@ -38,30 +39,44 @@ void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
         exit(1);
     }
 
-
     listen(sockfd, 5);
-    clilen = sizeof(cli_addr);
-    newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
-    if (newsockfd < 0) {
-        perror("ERROR on accept");
-        exit(1);
+    struct sockaddr_in client;
+    socklen_t clilen = sizeof(client);
+
+
+    int new_sock;
+
+    timeval timeout;
+    timeout.tv_sec = 10;
+    timeout.tv_usec = 0;
+
+    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
+
+    new_sock = accept(sockfd, (struct sockaddr *) &client, &clilen);
+    if (new_sock < 0) {
+        if (errno == EWOULDBLOCK || errno == EAGAIN) {
+            cout << "timeout!" << endl;
+            exit(2);
+        } else {
+            perror("other error");
+            exit(3);
+        }
     }
+    cout << new_sock << endl;
+    cout << sockfd << endl;
 
     while (true) { //changer from true to the class boolen member
 
-        /* Read socket. */
-        bzero(buffer, 1024);
-        readBytes = (int) read(newsockfd, buffer, 1023);
-
-        if (readBytes < 0) { /* Check if the read succeeded. */
-            throw "Could not read from client."; /* If failed throw. */
-        } else {
-
+        if (new_sock < 0) {
+            stop(0);
         }
 
-        }
-       // sleep(hz/1000);
+        cout<<"Sending"<<endl;
+        clientHandler->handleClient(new_sock);
     }
+    // sleep(hz/1000);
+
+}
 
 
 void MySerialServer::stop(int) {
