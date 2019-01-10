@@ -20,13 +20,15 @@ private:
 protected:
     virtual Node<T>* popOpenList() {
         evaluateNodes++;
+        Node<T>* n=priorityHeap.top();
         priorityHeap.pop();
+        return n;
 
     }
     virtual void addToOpen(Node<T>* node) {
         this->priorityHeap.push(node);
     }
-    virtual bool contains( Node<string>* node) {
+    virtual bool contains( Node<T>* node) {
         return this->priorityHeap.contains(node);
     }
 public:

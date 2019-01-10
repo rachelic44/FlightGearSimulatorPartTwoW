@@ -16,10 +16,10 @@ private:
     int downLimit;
     int rightLimit;
 public:
-    Matrix(vector<Node<pair<int,int>>*> nodesVector,int downLimit,int rightLimit) {
+    Matrix(vector<Node<pair<int,int>>*> nodesVector, Node<pair<int,int>>* startT, Node<pair<int,int>>* targetT) {
         this->nodesVector=nodesVector;
-        this->rightLimit=rightLimit;
-        this->downLimit=downLimit;
+        this->start=startT;
+        this->target=targetT;
     }
 
     Node<pair<int,int>>* getGoalState() {

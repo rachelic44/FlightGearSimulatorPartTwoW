@@ -10,6 +10,7 @@
 #include <queue>
 #include "BestFirstSearch.h"
 #include "C.h"
+#include "Matrix.h"
 
 using namespace std;
 
@@ -59,7 +60,7 @@ int main() {
 
 
 
-    BestFirstSearch bestFirstSearch;
+
 
 
     cout<<endl;
@@ -83,6 +84,25 @@ int main() {
             std::cout << ", ";
         }
     }
+
+    vector<Node<pair<int,int>>*> vec;
+    Node<pair<int,int>>* A = new Node<pair<int,int>>({0,0});
+    A->setStepCost(0);
+    vec.push_back(A);
+    Node<pair<int,int>>* B = new Node<pair<int,int>>({0,1});
+    B->setStepCost(1);
+    vec.push_back(B);
+    Node<pair<int,int>>* C = new Node<pair<int,int>>({1,0});
+    C->setStepCost(2);
+    vec.push_back(C);
+    Node<pair<int,int>>* D = new Node<pair<int,int>>({1,1});
+    D->setStepCost(3);
+    vec.push_back(D);
+    Matrix* m=new Matrix(vec,A,D);
+   // BestFirstSearch bestFirstSearch;
+    ISearcher< vector<Node<pair<int,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+    searcher->search(m);
+    int i=6;
 
     return 0;
 }
