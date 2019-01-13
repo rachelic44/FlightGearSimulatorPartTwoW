@@ -14,9 +14,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <netinet/in.h>
+#include "PosixSocket.h"
 
-
-
+using namespace posix_sockets;
 
 class MyTestClientHandler : public ClientHandler {
 private:
@@ -27,37 +27,25 @@ public:
         this->solver=reverseSolver;
     }
 
-    virtual void handleClient(int sockClientNumber) {
+    virtual void handleClient(TCP_client client) {
 
-        timeval timeout; // todo use it!
-        timeout.tv_sec = 0;
-        timeout.tv_usec = 0;
-        setsockopt(sockClientNumber, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
-        int readBytes = 1;
-        while (readBytes > 0) { //todo change! while message is not end. (but there is return. put 2 - changement for end).
+        bool toContinue= true;
+        while (toContinue) {
 
-
-            char buffer[1024];
-            bzero(buffer, 1024);
-            cout << "here1" << endl;
-            readBytes = (int) read(sockClientNumber, buffer, 1023);
-            if (readBytes < 0) { /* Check if the read succeeded. */
-                //throw logic_error( "Could not read from client."); /* If failed throw. */
-                close(sockClientNumber);
-                return;
+            string bufferReadFromCLient = client.read(1024);
+            if (bufferReadFromCLient.find("end") != string::npos) {
+                bufferReadFromCLient =bufferReadFromCLient.substr(0,bufferReadFromCLient.find("end"));
+                toContinue=false;
+                if(bufferReadFromCLient=="") {
+                    continue;
+                }
+                cout<<"Was at non"<<endl;
             }
             cout << "here2" << endl;
-            string ans = this->solver->solve(buffer);
-            const char *ansAsChar = ans.c_str();
-
-            cout << ansAsChar << endl;
-            long int n = write(sockClientNumber, ansAsChar, strlen(ansAsChar));
-            if (n < 0) {
-                perror("ERROR writing to socket");
-                exit(1);
-            }
-            int a = 3;
+            string ans = this->solver->solve(bufferReadFromCLient);
+            client.write(ans);
         }
+        client.close();
     }
 
 };

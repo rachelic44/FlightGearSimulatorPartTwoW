@@ -15,13 +15,14 @@
 #include "MyTestClientHandler.h"
 #include "ReverseSolver.h"
 #include <fstream>
+#include "MyParallelServer.h"
 
 using namespace std;
 
 #include "SearchSolver.h"
 
 int main() {
-   std::cout << "Hello, World!" << std::endl;
+  /* std::cout << "Hello, World!" << std::endl;
 
     vector<Node<pair<int,int>>*> vec;
     Node<pair<int,int>>* A1 = new Node<pair<int,int>>({0,0});
@@ -128,17 +129,27 @@ int main() {
         myfile>>s;
         cout<<s;
         myfile.close();
-    }
+    }*/
 
 
-/*
+
   MySerialServer mySerialServer;
+  MyParallelServer myParallelServer;
   Solver<string,string> * solver=new ReverseSolver();
-
+  cout<<"hello main"<<endl;
+  sleep(1);
   ClientHandler* testClientHandler=new MyTestClientHandler(solver);
-  mySerialServer.open(5400,testClientHandler);*/
+  myParallelServer.open(5400,testClientHandler);
+  /*while(true) {
+    cout<<"hello main"<<endl;
+    sleep(1);
+  }*/
+  cout<<"hello main"<<endl;
+//string s="123end2";
+//cout<<s.substr(0,s.find("end"));
 
-    return 0;
+pthread_exit(nullptr);
+   // return 0;
 }
 
 

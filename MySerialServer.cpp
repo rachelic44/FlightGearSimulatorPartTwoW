@@ -7,83 +7,74 @@
 #include "MySerialServer.h"
 #include <fcntl.h>
 #include <string.h>
+#include "PosixSocket.h"
+#include <pthread.h>
+#include <thread>
 
+using namespace posix_sockets;
+
+
+/*
+void *threadOpen(void *params) {
+    struct serverParams *parameters = static_cast<struct serverParams *>(params);
+    TCP_server server=parameters->tcp_server;
+    TCP_client client=parameters->tcp_client;
+
+
+    while (!(*parameters->toStop)) {
+
+        if (parameters->tcp_client.getSockNumber() == -2 ) {
+            cout<<"atStop";
+            *parameters->toStop= true;
+            continue;
+        }
+
+        cout<< client.getSockNumber() << " the num"<<endl;
+        cout<<"Sending"<<endl;
+        parameters->clientHandler->handleClient(client);
+        client = server.accept();
+    }
+
+}*/
+
+void funcForThread(bool* toStop,TCP_server tcp_server,TCP_client tcp_client,ClientHandler* clientHandler) {
+    while (!(*toStop)) {
+
+        if (tcp_client.getSockNumber() == -2) {
+            cout << "atStop";
+            *toStop=true;
+            continue;
+        }
+
+        clientHandler->handleClient(tcp_client);
+        tcp_client = tcp_server.accept();
+    }
+    tcp_server.close();
+
+}
 
 void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
 
 
-    int sockfd, newsockfd, portno, clilent;
-    struct sockaddr_in serv_addr{}, cli_addr{};
-    /* First call to socket() function */
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
-        perror("ERROR opening socket server");
-        exit(1);
+    TCP_server server(portNumber);
+    server.listen(SOMAXCONN);
+    server.settimeout(0,0);
+    TCP_client client=server.accept();
+    server.settimeout(1,0);
+    *(this->toStop)= false;
+
+
+
+    thread thread1(funcForThread,this->toStop,server,client,clientHandler);
+    thread1.detach();
+    if(*(this->toStop)) {
+        close(server.getSockNumber());
+        cout<<"ht"<<endl;
     }
-
-
-    /* Initialize socket structure */
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    portno = portNumber;
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons(portno);
-
-    /* Now bind the host address using bind() call.*/
-    if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR on binding");
-        exit(1);
-    }
-
-    listen(sockfd, SOMAXCONN);
-    struct sockaddr_in client;
-    socklen_t clilen = sizeof(client);
-
-
-    int new_sock;
-
-    timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
-
-    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
-
-    new_sock = accept(sockfd, (struct sockaddr *) &client, &clilen);
-    if (new_sock < 0) {
-        if (errno == EWOULDBLOCK || errno == EAGAIN) {
-            cout << "timeout!" << endl;
-            exit(2);
-        } else {
-            perror("other error");
-            exit(3);
-        }
-    }
-    cout << new_sock << endl;
-    cout << sockfd << endl;
-
-    while (true) { //changer from true to the class boolen member
-
-
-        if (new_sock < 0) {
-            stop(sockfd);
-
-        }
-
-        cout<<new_sock<< " the num"<<endl;
-        cout<<"Sending"<<endl;
-        clientHandler->handleClient(new_sock);
-        new_sock = accept(sockfd, (struct sockaddr *) &client, &clilen);
-    }
-    // sleep(hz/1000);
 
 }
 
 
 void MySerialServer::stop(int serverNUmber) {
-    cout<<"stopped";
     close(serverNUmber);
-    //thistoStop=true;
-    //close(portnumbe
-    //close all the clients that talk to us \9if there are)
 }

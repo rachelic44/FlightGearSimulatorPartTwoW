@@ -5,9 +5,12 @@
 #ifndef PROJECTPART2_CLIENTHANDLER_H
 #define PROJECTPART2_CLIENTHANDLER_H
 
+#include "PosixSocket.h"
+using namespace posix_sockets;
+
 class ClientHandler {
 public:
-    virtual void handleClient(int sockClientNumber) = 0 ;
+    virtual void handleClient(TCP_client client) = 0 ;
 };
 
 #endif //PROJECTPART2_CLIENTHANDLER_Hmain
