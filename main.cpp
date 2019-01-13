@@ -16,9 +16,11 @@
 #include "ReverseSolver.h"
 #include <fstream>
 #include "MyParallelServer.h"
+#include "FileCasheManager.h"
 
 using namespace std;
 
+CashMap *CashMap::map_instance = NULL;
 #include "SearchSolver.h"
 
 int main() {
@@ -132,7 +134,7 @@ int main() {
     }*/
 
 
-
+/*
   MySerialServer mySerialServer;
   MyParallelServer myParallelServer;
   Solver<string,string> * solver=new ReverseSolver();
@@ -144,11 +146,48 @@ int main() {
     cout<<"hello main"<<endl;
     sleep(1);
   }*/
-  cout<<"hello main"<<endl;
+ // cout<<"hello main"<<endl;
 //string s="123end2";
 //cout<<s.substr(0,s.find("end"));
 
-pthread_exit(nullptr);
+FileCasheManager fileCasheManager;
+string queston ="hello";
+cout<<fileCasheManager.getExistSolution(queston);
+
+int a=stoi("       5\n \n");
+cout<<a+3;
+int i=0,j=0;
+string start="5,63 \n";
+i=stoi(start.substr(0,start.find(",")));
+ j=stoi(start.substr(start.find(",")+1,start.length()-start.find(",")));
+cout<<" "<<i<<" "<<j;
+
+
+
+
+    vector<string> vector1={"8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,1,1,11,17,1,9",
+                            "8,10,2,-1,1,11,17,1,9"};
+    Isearchable<pair<int,int>> * mush=new Matrix(vector1,"8,8","0,0");
+    // BestFirstSearch bestFirstSearch;
+    ISearcher< vector<Node<pair<int ,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+    // vector<Node<pair<int,int>>*> answer = searcher->search(m);
+
+    Solver<Isearchable<pair<int,int>>*, vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
+            new SearchSolver< vector<Node<pair<int,int>>*>,pair<int,int>>(searcher);
+    vector<Node<pair<int,int>>*> answer=solverSearcherTobeSolver->solve(mush);
+
+    for(Node<pair<int,int>>* node: answer) {
+        cout<<node->getNodeData().first <<" "<< node->getNodeData().second<<"\n";
+    }
+
+    pthread_exit(nullptr);
    // return 0;
 }
 

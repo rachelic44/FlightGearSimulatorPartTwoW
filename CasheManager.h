@@ -7,10 +7,10 @@
 
 template <class Problem,class Solution>
 class CasheManager {
-
+public:
     virtual bool solutionExistance(Problem problem) = 0;
-    virtual Solution getExistSolution() = 0;
-    virtual void saveSolution(Problem problem, Solution solution);
+    virtual Solution getExistSolution(Problem problem) = 0;
+    virtual void saveSolution(Problem problem, Solution solution)=0;
 
 };
 

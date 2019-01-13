@@ -18,11 +18,15 @@ public:
         return false;
     }
     ostream &operator<<(ostream &stream) {
-        cout<<"H";
+        stream<<"G";
     }
 
     friend ostream &operator<<(ostream &ostream1, B infinit1) {
         return infinit1 << (ostream1);
+    }
+
+    string to_string(B b) {
+        return "hello";
     }
 
 };

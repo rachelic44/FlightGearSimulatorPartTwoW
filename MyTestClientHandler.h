@@ -23,8 +23,9 @@ private:
     Solver<string,string>* solver;
     CasheManager<std::string,std::string>* casheManager;
 public:
-    MyTestClientHandler(Solver<string,string>* reverseSolver) {
+    MyTestClientHandler(Solver<string,string>* reverseSolver,CasheManager<std::string,std::string>* casheManager ) {
         this->solver=reverseSolver;
+        this->casheManager=casheManager;
     }
 
     virtual void handleClient(TCP_client client) {

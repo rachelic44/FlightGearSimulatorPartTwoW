@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string.h>
+#define TIME_OUT -2
 
 using namespace std;
 
@@ -186,9 +187,8 @@ namespace posix_sockets
             if (client_sock_fd < 0)	{
                 // eagain and ewouldblock are errors normally hapenning on timeouts
                 if (errno == EAGAIN || errno == EWOULDBLOCK)	{
-                    return TCP_client(-2);
+                    return TCP_client(TIME_OUT);
                 }	else	{
-              //      cout<<"G";
                     throw std::system_error(std::error_code(errno, std::generic_category()), "error on accept");
                 }
             }
