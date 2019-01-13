@@ -50,6 +50,41 @@ public:
         return vecOfNeighborsToRet;
     }
 
+
+   /* void operator>>(istream &s) {
+        string string1;
+        s >> string1;
+        Matrix a(string1);
+        *this = a;
+    }
+
+    friend void operator>>(istream &istream1, Matrix &otherMatrix) {
+        otherMatrix >> istream1;
+    }*/
+
+    ostream &operator<<(ostream &stream) {
+        int i=0;
+        for(Node<pair<int,int>>* node:this->nodesVector) {
+            if(node->getNodeData().first!=i) {
+                stream << "\n" << node->getStepCost();
+                i++;
+            } else {
+                if(node->getNodeData().second==0 && i==0) {
+                    stream << node->getStepCost() ;
+                } else {
+                    stream <<" ,"<< node->getStepCost() ;
+                }
+
+            }
+        }
+        return stream;
+    }
+
+    friend ostream &operator<<(ostream &ostream1, Matrix infinit1) {
+        return infinit1 << (ostream1);
+    }
+
+
 };
 
 

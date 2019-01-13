@@ -89,6 +89,7 @@ struct greaterThan : binary_function <T, T, bool> {
 template <typename T>
 class PriorityHeap : public priority_queue<Node<T>*, vector<Node<T>*>,greaterThan<Node<T>*>> {
 public:
+
     bool remove( Node<T>*  value)  {
         auto it = finder(this->c.begin(), this->c.end(), value);
         if (it != this->c.end()) {

@@ -52,7 +52,6 @@ public:
     }
 
     bool operator==( Node<T> other) const {
-        cout<<"was here";
         if(this->nodeData==other.nodeData) {
             return true;
         }

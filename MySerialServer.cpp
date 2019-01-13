@@ -12,16 +12,12 @@
 void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
 
 
-    std::string tillNewLine; /* The set of  data. */
-    std::string dataRead; /* The un-used data. */
-    char buffer[1024];        /* The data we currently read. */
-    int readBytes;            /* The bytes we currently read. */
     int sockfd, newsockfd, portno, clilent;
     struct sockaddr_in serv_addr{}, cli_addr{};
     /* First call to socket() function */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
-        perror("ERROR opening socket");
+        perror("ERROR opening socket server");
         exit(1);
     }
 
@@ -33,13 +29,14 @@ void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
+
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
         perror("ERROR on binding");
         exit(1);
     }
 
-    listen(sockfd, 5);
+    listen(sockfd, SOMAXCONN);
     struct sockaddr_in client;
     socklen_t clilen = sizeof(client);
 
@@ -67,19 +64,25 @@ void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
 
     while (true) { //changer from true to the class boolen member
 
+
         if (new_sock < 0) {
-            stop(0);
+            stop(sockfd);
+
         }
 
+        cout<<new_sock<< " the num"<<endl;
         cout<<"Sending"<<endl;
         clientHandler->handleClient(new_sock);
+        new_sock = accept(sockfd, (struct sockaddr *) &client, &clilen);
     }
     // sleep(hz/1000);
 
 }
 
 
-void MySerialServer::stop(int) {
+void MySerialServer::stop(int serverNUmber) {
+    cout<<"stopped";
+    close(serverNUmber);
     //thistoStop=true;
     //close(portnumbe
     //close all the clients that talk to us \9if there are)
