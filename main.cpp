@@ -95,7 +95,7 @@ int main() {
                              "1,1,2,3,2,0,2",
                              "1,1,2,3,2,0,2",
                              "1,1,2,3,2,0,2",
-                             "1,1,2,3,2,0,2",};
+                             "1,1,2,3,2,0,2"};
      string s1="0,0";
      string s2="7,6";
      Isearchable<pair<int,int>> * mush=new Matrix(vector1,s1,s2);
@@ -135,7 +135,7 @@ int main() {
 
 
     cout << "hello main2" << endl;
-    delete CashMap::instance();
+
 
 
     pthread_exit(nullptr);
