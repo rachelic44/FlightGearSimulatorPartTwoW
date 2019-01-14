@@ -16,10 +16,21 @@ using namespace std;
 class FileCasheManager : public CasheManager<string,string> {
 public:
     virtual bool solutionExistance(string problem) {
+        cout<<"p1"<<endl;
         unordered_map<string,string>* cashMap = CashMap::instance()->getMap();
+        cout<<"p2"<<endl;
         stringstream stringstream1;
         stringstream1<<problem;
-        return (!cashMap->count(problem));
+        cout<<"p3"<<endl;
+        if(cashMap== nullptr) {
+            cout<<"prob"<<endl;
+        }
+        if(cashMap->count(problem)==0) {
+            cout<<"p4"<<endl;
+            return false;
+        }
+        cout<<"p5"<<endl;
+        return true;
 
     }
     virtual string getExistSolution(string problem) {

@@ -17,6 +17,9 @@
 #include <fstream>
 #include "MyParallelServer.h"
 #include "FileCasheManager.h"
+#include "MyClientHandler.h"
+#include <sstream>
+#include "CasheManager.h"
 
 using namespace std;
 
@@ -73,6 +76,7 @@ int main() {
 //string s="123end2";
 //cout<<s.substr(0,s.find("end"));
 
+/*
 FileCasheManager fileCasheManager;
 string queston ="hello";
 cout<<fileCasheManager.getExistSolution(queston);
@@ -82,7 +86,7 @@ cout<<a+3;
 int i=0,j=0;
 string start="5,63 \n";
 i=stoi(start.substr(0,start.find(",")));
- j=stoi(start.substr(start.find(",")+1,start.length()-start.find(",")));
+j=stoi(start.substr(start.find(",")+1,start.length()-start.find(",")));
 cout<<" "<<i<<" "<<j;
 
 
@@ -103,6 +107,35 @@ cout<<" "<<i<<" "<<j;
     string answer=solverSearcherTobeSolver->solve(mush);
 
     cout<<endl<<answer;
+
+    stringstream stringstream1;
+    stringstream1<<"G";
+    string r=stringstream1.str();
+    cout<<r;
+    //*mush>>stringstream1;
+   // cout<<*mush;
+  */
+
+    MyParallelServer myParallelServer;
+    CasheManager<string,string>* fileCasheManager = new FileCasheManager() ;
+
+    ISearcher< string,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+    // vector<Node<pair<int,int>>*> answer = searcher->search(m);
+
+    Solver<Isearchable<pair<int,int>>*, string> * solverSearcherTobeSolver =
+            new SearchSolver<string,pair<int,int>>(searcher);
+
+
+    cout<<"hello main"<<endl;
+    sleep(1);
+
+ //   MyClientHandler<string> *myClientHandler=new MyClientHandler<string>(solverSearcherTobeSolver,fileCasheManager);
+    ClientHandler* testClientHandler=new MyClientHandler<pair<int,int>>(solverSearcherTobeSolver,fileCasheManager);
+    myParallelServer.open(5400,testClientHandler);
+
+
+    cout<<"hello main2"<<endl;
+   delete CashMap::instance();
     pthread_exit(nullptr);
    // return 0;
 }

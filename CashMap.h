@@ -18,7 +18,7 @@ using namespace std;
 
 class CashMap {
 
-    unordered_map<string, string> theCashMap;
+    unordered_map<string, string>* theCashMap=new unordered_map<string, string>();
     static CashMap *map_instance;
 public:
     static inline CashMap *instance() {
@@ -59,16 +59,34 @@ public:
     }
 
     inline void setValue(string key, string val) {
-        theCashMap[key] = val;
+       theCashMap->insert({key,val});
     }
 
     inline unordered_map<string, string>* getMap() {
-        return &theCashMap;
+        return theCashMap;
     }
 
    /* inline double getValue(const string &key) {
         return pathMap[key];
     }*/
+   ~CashMap(){
+      // cout<<"at cash map distructor";
+
+       ofstream myfile (FILE_NAME);
+       if(!myfile.is_open()) {
+           myfile.open(FILE_NAME,fstream::app | fstream::in);
+       }
+
+       if (myfile.is_open())
+       {
+           for(auto p : this->theCashMap) {
+               myfile<<p.first<<"\n$\n"<<p.second<<"\n$\n";
+           }
+           myfile.close();
+       } else {
+           throw "Could not open file";
+       }
+   }
 };
 
 #endif //PROJECTPART2_CASHMAP_H

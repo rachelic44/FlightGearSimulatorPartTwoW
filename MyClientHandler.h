@@ -10,6 +10,7 @@
 #include "ISearcher.h"
 #include "CasheManager.h"
 #include "Matrix.h"
+#include <sstream>
 
 using namespace posix_sockets;
 
@@ -20,34 +21,62 @@ private:
     Solver<Isearchable<T>*,string>* solver;
     CasheManager<std::string,std::string>* casheManager;
 public:
-    MyClientHandler(Solver<Isearchable<T>,string>* solver1, CasheManager<std::string,std::string>* casheManager) {
+    MyClientHandler(Solver<Isearchable<T>*,string>* solver1, CasheManager<std::string,std::string>* casheManager) {
         this->solver=solver1;
         this->casheManager=casheManager;
     }
 
+
     virtual void handleClient(TCP_client client) {
 
+        string ans;
+        string bufferReadFromCLient="";
+        client.settimeout(0,0);
+        cout<<"hi"<<endl;
         bool toContinue= true;
         while (toContinue) {
 
-            string bufferReadFromCLient = client.read(1024);
+            bufferReadFromCLient += client.read(1024);
             if (bufferReadFromCLient.find("end") != string::npos) {
                 bufferReadFromCLient=bufferReadFromCLient.substr(0,bufferReadFromCLient.find("end"));
-                toContinue=false;
+                toContinue=false; //change. keep things for the next read
                 if(bufferReadFromCLient=="") {
+                    cout<<"g1";
                     continue;
                 }
                 cout<<"Was at non"<<endl;
+            } else {
+                continue;
             }
-            vector<string> linesVec=splitByDelimeter(bufferReadFromCLient);
-            string target = linesVec.back();
-            linesVec.pop_back();
-            string start = linesVec.back();
-            linesVec.pop_back();
-            Isearchable<T>* isearchable = new Matrix(linesVec,start,target);
-
+            if(this->casheManager->solutionExistance(bufferReadFromCLient)) {
+                cout<<"g2";
+                ans=casheManager->getExistSolution(bufferReadFromCLient);
+            } else {
+                cout<<"1"<<endl;
+                vector<string> linesVec = splitByDelimeter(bufferReadFromCLient,"\n");
+                cout<<"2"<<endl;
+                for(auto s:linesVec) {
+                    cout<<s;
+                }
+                string target = linesVec.back();
+                linesVec.pop_back();
+                string start = linesVec.back();
+                linesVec.pop_back();
+                cout<<"3"<<endl;
+                Isearchable<T> *isearchable = new Matrix(linesVec, start, target);
+                Matrix* matrix=new Matrix(linesVec, start, target);
+                cout<<matrix<<endl;
+                /* stringstream stringstream1;
+                 stringstream1<<bufferReadFromCLient; //till the end. here specific no more
+                 isearchable>>stringstream1;
+                 string p = stringstream1.str();*/
+                stringstream stringstreamOfProblem;
+                stringstreamOfProblem<<isearchable;
+                ans = this->solver->solve(isearchable);
+                this->casheManager->saveSolution(stringstreamOfProblem.str(),ans);
+            }
             cout << "here2" << endl;
-            string ans = this->solver->solve(isearchable);
+
             client.write(ans);
         }
         client.close();
@@ -59,7 +88,7 @@ public:
         while(string1.find(delimeter)!= string::npos) {
             part=string1.substr(0,string1.find(delimeter));
             splitted.push_back(part);
-            string1=string1.substr(0,string1.find(delimeter));
+            string1=string1.substr(string1.find(delimeter)+1,string1.length()-string1.find(delimeter));
         }
         return splitted;
     }
