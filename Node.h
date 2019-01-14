@@ -15,7 +15,7 @@ private:
     T nodeData;
     double cost=0;
     double steppCost=0;
-    Node<T>* cameFrom;
+    Node<T>* cameFrom= nullptr;
 public:
     Node<T>() {
 

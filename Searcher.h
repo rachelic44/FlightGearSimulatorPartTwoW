@@ -16,7 +16,7 @@ template <class Solution, class T>
 class Searcher : public ISearcher<Solution,T> {
 private:
     PriorityHeap<T> priorityHeap;
-    int evaluateNodes;
+    int evaluateNodes=0;
 protected:
     virtual Node<T>* popOpenList() {
         evaluateNodes++;

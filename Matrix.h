@@ -22,11 +22,12 @@ public:
         this->target=targetT;
     }
 
-    Matrix(vector<string> linesVec, string start, string target) {
+    Matrix(vector<string>& linesVec, string& start, string& target) {
         int i=0, j=0;int index;
         for(string string1: linesVec) {
             while(string1.find(",")!= string::npos) {
                Node<pair<int,int>>* node=new Node<pair<int,int>>({i,j});
+               cout<<"stoi1";
                node->setStepCost(stoi(string1.substr(0,string1.find(","))));
                this->nodesVector.push_back(node);
                index=string1.find((","));
@@ -34,13 +35,17 @@ public:
                j++;
             }
             Node<pair<int,int>>* node=new Node<pair<int,int>>({i,j});
-            node->setStepCost(stoi(string1.substr(0,string1.find(","))));
+            //node->setStepCost(stoi(string1.substr(0,string1.find(","))));
+            cout<<"stoi2";
+            node->setStepCost(stoi(string1));
             this->nodesVector.push_back(node);
             i++;
             j=0;
         }
         if(target.find(",")!= string::npos) {
+            cout<<"stoi3";
             i=stoi(target.substr(0,target.find(",")));
+            cout<<"stoi4";
             j=stoi(target.substr(target.find(",")+1,target.length()-target.find(",")));
             Node<pair<int,int>>* node=getSomeNode({i,j});
             if(node== nullptr) {
@@ -49,8 +54,12 @@ public:
             this->target=node;
         }
         if(start.find(",")!= string::npos) {
+            cout<<"stoi5";
+            cout<<"start"<<start<<"start";
             i=stoi(start.substr(0,start.find(",")));
+            cout<<"stoi6";
             j=stoi(start.substr(start.find(",")+1,start.length()-start.find(",")));
+            cout<<"stoi7";
             Node<pair<int,int>>* node=getSomeNode({i,j});
             if(node== nullptr) {
                 __throw_logic_error("no target/start for matrix");

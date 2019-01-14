@@ -18,11 +18,12 @@ using namespace std;
 
 class CashMap {
 
-    unordered_map<string, string>* theCashMap=new unordered_map<string, string>();
+    static unordered_map<string, string>* theCashMap;
     static CashMap *map_instance;
 public:
     static inline CashMap *instance() {
         if (map_instance == nullptr) {
+            theCashMap=new unordered_map<string,string>();
             map_instance = new CashMap();
             ifstream myfile (FILE_NAME);
             string line;
@@ -47,6 +48,7 @@ public:
                     } else {
                         solution=whole;
                         whole="";
+                        signInProblem++;
                         map_instance->setValue(problem,solution);
                     }
                 }
@@ -72,20 +74,27 @@ public:
    ~CashMap(){
       // cout<<"at cash map distructor";
 
-       ofstream myfile (FILE_NAME);
-       if(!myfile.is_open()) {
+       ofstream myfile;
+     /*  if(!myfile.is_open()) {
            myfile.open(FILE_NAME,fstream::app | fstream::in);
-       }
+       }*/
+       myfile.open(FILE_NAME,std::ios::app);
 
+
+       for(auto p : *this->theCashMap) {
+           myfile<<p.first<<"\n$\n"<<p.second<<"\n$\n";
+       }
+       myfile.close();
+       /*
        if (myfile.is_open())
        {
-           for(auto p : this->theCashMap) {
+           for(auto p : *this->theCashMap) {
                myfile<<p.first<<"\n$\n"<<p.second<<"\n$\n";
            }
            myfile.close();
        } else {
            throw "Could not open file";
-       }
+       }*/
    }
 };
 

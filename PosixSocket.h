@@ -120,7 +120,7 @@ namespace posix_sockets
                 throw std::system_error(std::error_code(errno, std::generic_category()), "error on read");
             }
 
-            buffer[n] = 0;
+            buffer[read_len] = '\0';
             std::string output = std::string(buffer);
             delete buffer;
             return output;
@@ -153,6 +153,8 @@ namespace posix_sockets
     public:
         TCP_server(int port)
         {
+            int n = 1;
+            setsockopt(sock.sock_fd, SOL_SOCKET, SO_REUSEADDR, &n, sizeof(int));
             sockaddr_in addr_in;
             addr_in.sin_family = AF_INET;
             addr_in.sin_port = htons(port);
