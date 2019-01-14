@@ -1,12 +1,13 @@
 
 
+
 //
 // Created by shanyyael on 1/10/19.
 //
 
 #ifndef PROJECTPART2_BFS_H
 #define PROJECTPART2_BFS_H
-
+///hellooooo
 
 #include "ISearcher.h"
 #include "Graph.h"
@@ -21,7 +22,7 @@
 using namespace std;
 
 template <class T>
-class BFS : public Searcher<vector<Node<T> *>,T> {
+class BFS : public Searcher<string,T> {
 
     vector<Node<T> *> backTrace(Node<T> *goalState) {
         Node<T> *current = goalState;
@@ -40,6 +41,27 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
 
     }
 
+    //use only for matrixes- wont work on a graph
+    string backTracer(Node<T>* goalState)  {
+        Node<T>* current=goalState;
+        string pathToReturn="";
+        while(current->getCameFrom()!= nullptr) {
+            if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
+                pathToReturn="DOWN,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
+                pathToReturn="UP,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
+                pathToReturn="RIGHT,"+pathToReturn;
+            } else {
+                pathToReturn="LEFT,"+pathToReturn;
+            }
+            current=current->getCameFrom();
+        }
+        pathToReturn.erase(pathToReturn.length()-1,1);
+        // cout<<this->getNumberOfNodesEvaluated()<<endl;
+        return pathToReturn;
+    }
+
 
     bool inVisited(vector<Node<T> *> visited,Node<T> *current ){
         for (auto state:visited) {
@@ -50,7 +72,8 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
         return false;
     }
 
-    virtual vector<Node<T> *> search(Isearchable<T> *isearchable) {
+    string search(Isearchable<T> *isearchable) {
+        int numnodeEval = 0;
         queue<Node<T> *> verQueue;
         vector<Node<T> *> visitedNodes;
         Node<T> *currentNode;
@@ -59,6 +82,7 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
         verQueue.push(isearchable->getInitialState()); // todo: add func like addToOpen????
         visitedNodes.push_back(isearchable->getInitialState());
         while (!verQueue.empty()) {
+            numnodeEval++;
             // Get next vertex
             currentNode = verQueue.front();
 //            verQueue.pop();
@@ -66,7 +90,9 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
 
             if (isearchable->getGoalState() == currentNode) {
                 cout << "Bfs goal" << endl;
-                return backTrace(currentNode);
+                //cout<<visitedNodes.size()<<endl;
+                cout<<this->getNumberOfNodesEvaluated()<<endl;
+                return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
             verQueue.pop();
@@ -74,14 +100,13 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
             for (Node<T> *neighbor: nextPossibleStates) {
                 if (!inVisited(visitedNodes,neighbor)) {
                     neighbor->setCameFrom(currentNode);
-                    // neighbor->setCost(neighbor->getStepCost() + currentNode->getCost());
                     visitedNodes.push_back(neighbor);
                     verQueue.push(neighbor);
                 }
             }
         }
 
-        return visitedNodes;
+        return "ffk";
     }
 
 
@@ -113,4 +138,3 @@ class BFS : public Searcher<vector<Node<T> *>,T> {
 };
 
 #endif //PROJECTPART2_BFS_H
-

@@ -20,6 +20,7 @@
 #include "MyClientHandler.h"
 #include <sstream>
 #include "CasheManager.h"
+#include "Astar.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ CashMap *CashMap::map_instance = NULL;
 unordered_map<string, string> *CashMap::theCashMap = NULL;
 
 #include "SearchSolver.h"
+#include "BFS.h"
+#include "DFS.h"
 
 int main() {
     /*
@@ -85,23 +88,28 @@ int main() {
 
 
 
-    /* vector<string> vector1={"1,10,10",
-                             "1,10,10",
-                             "1,10,10"};
+  /*   vector<string> vector1={"1,1,0,3,2,3,2",
+                             "1,1,0,3,2,3,2",
+                             "1,1,0,0,0,0,2",
+                             "1,1,2,3,2,0,2",
+                             "1,1,2,3,2,0,2",
+                             "1,1,2,3,2,0,2",
+                             "1,1,2,3,2,0,2",
+                             "1,1,2,3,2,0,2",};
      string s1="0,0";
-     string s2="2,2";
+     string s2="7,6";
      Isearchable<pair<int,int>> * mush=new Matrix(vector1,s1,s2);
      // BestFirstSearch bestFirstSearch;
-     ISearcher< string, pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+          ISearcher< string, pair<int,int>> *searcher= new Astar<pair<int,int>>();
      // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
      Solver<Isearchable<pair<int,int>>*, string> * solverSearcherTobeSolver =
              new SearchSolver< string,pair<int,int>>(searcher);
      string answer=solverSearcherTobeSolver->solve(mush);
 
-     cout<<endl<<answer;
+     cout<<endl<<answer;*/
 
- */
+
 
 
 

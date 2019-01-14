@@ -22,7 +22,14 @@
 using namespace std;
 
 template <class T>
-class DFS : public Searcher<vector<Node<T> *>,T> {
+class DFS : public ISearcher<string,T> {
+
+private:
+    int numOfNodes;
+public:
+    DFS() {
+        this->numOfNodes=0;
+    }
 
     vector<Node<T> *> backTrace(Node<T> *goalState) {
         Node<T> *current = goalState;
@@ -42,35 +49,113 @@ class DFS : public Searcher<vector<Node<T> *>,T> {
 
     }
 
+//use only for matrixes- wont work on a graph
+    string backTracer(Node<T>* goalState)  {
+        Node<T>* current=goalState;
+        string pathToReturn="";
+        while(current->getCameFrom()!= nullptr) {
+            if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
+                pathToReturn="DOWN,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
+                pathToReturn="UP,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
+                pathToReturn="RIGHT,"+pathToReturn;
+            } else {
+                pathToReturn="LEFT,"+pathToReturn;
+            }
+            current=current->getCameFrom();
+        }
+        pathToReturn.erase(pathToReturn.length()-1,1);
+        return pathToReturn;
+    }
 
-    virtual vector<Node<T> *> search(Isearchable<T> *isearchable) {
-        // queue<Node<T> *> verQueue;
-        set<Node<T> *> visitedNodes;//todo: set??
+    bool inVisited(vector<Node<T> *> visited,Node<T> *current ){
+        for (auto state:visited) {
+            if (current==state) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    /*
+
+    State<P>* current = searchable->getInitialState();
+State<P>* goal = searchable->getGoalState();
+std::stack<State<P>*> stack;
+stack.push(current);
+current->setVisited(true);
+State<P>* top;
+
+
+
+
+while (!stack.empty()) {
+    this->numberOfNodesEvaluated++;
+    top = stack.top();
+    top->setVisited(true);
+    stack.pop();
+
+    if (top->Equals(searchable->getGoalState())) {
+        return goal;
+    }
+
+    std::vector<State<P>*> possibilities = searchable->getAllPossibleStates(top);
+    typename std::vector<State<P>*>::iterator itor;
+
+    for (itor = possibilities.begin(); itor != possibilities.end(); itor++) {
+        if (!(*itor)->isVisited()) { //add every adjacent that's not visited to the stack.
+            stack.push(*itor);
+            (*itor)->setCameFrom(top);
+        }
+    }
+}
+
+return top;
+}
+
+*/
+
+    string search(Isearchable<T> *isearchable) {
+        int numNodeEvaluated = 0;
+        vector<Node<T> *> visitedNodes;
         stack<Node<T> *> stackNode;
-        vector<Node<T> *> vec;
+        Node<T> *currentNode;
+        vector<Node<T> *> nextPossibleStates;
         stackNode.push(isearchable->getInitialState());
-        visitedNodes.insert(isearchable->getInitialState());
+        visitedNodes.push_back(isearchable->getInitialState());
 
         while (!stackNode.empty()) {
-            Node<T> *currentNode = stackNode.top();
-            stackNode.pop();
+            numNodeEvaluated++;
+            currentNode = stackNode.top();
+
             if (isearchable->getGoalState() == currentNode) {
                 cout << "dfs goal" << endl;
-                return backTrace(currentNode);
+              //  cout<<visitedNodes.size()<<endl;
+                cout<<this->getNumberOfNodesEvaluated()<<endl;
+                return backTracer(currentNode);
             }
-            vector<Node<T> *> nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
+            nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
+            stackNode.pop();
+            this->numOfNodes++;
 
             for (Node<T> *neighbor: nextPossibleStates) {
 
-                if (visitedNodes.count(neighbor) == 0) {
+                if (!inVisited(visitedNodes,neighbor)) {
                     neighbor->setCameFrom(currentNode);
+                    visitedNodes.push_back(neighbor);
                     stackNode.push(neighbor);
-                    visitedNodes.insert(neighbor);
                 }
             }
         }
 
-        return vec;
+        return "string";
+    }
+
+    virtual int getNumberOfNodesEvaluated() {
+        return this->numOfNodes;
     }
 
 
@@ -80,3 +165,4 @@ class DFS : public Searcher<vector<Node<T> *>,T> {
 
 
 #endif //PROJECTPART2_DFS_H
+

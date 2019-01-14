@@ -76,7 +76,7 @@ public:
                  isearchable>>stringstream1;
                  string p = stringstream1.str();*/
                 stringstream stringstreamOfProblem;
-                stringstreamOfProblem << isearchable;
+                stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
                 cout << "6" << endl;
                 cout << *(static_cast<Matrix *>(isearchable)) << "the matrix";
                 ans = stringstreamOfProblem.str();
