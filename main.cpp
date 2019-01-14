@@ -165,28 +165,21 @@ cout<<" "<<i<<" "<<j;
 
 
 
-    vector<string> vector1={"8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,1,1,11,17,1,9",
-                            "8,10,2,-1,1,11,17,1,9"};
-    Isearchable<pair<int,int>> * mush=new Matrix(vector1,"8,8","0,0");
+    vector<string> vector1={"2,2,8,10,2",
+                            "2,2,8,10,2",
+                            "2,2,8,10,2",
+                            "2,2,8,10,2",
+                            "2,2,8,10,2"};
+    Isearchable<pair<int,int>> * mush=new Matrix(vector1,"4,4","0,0");
     // BestFirstSearch bestFirstSearch;
-    ISearcher< vector<Node<pair<int ,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
+    ISearcher< string, pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
     // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
-    Solver<Isearchable<pair<int,int>>*, vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
-            new SearchSolver< vector<Node<pair<int,int>>*>,pair<int,int>>(searcher);
-    vector<Node<pair<int,int>>*> answer=solverSearcherTobeSolver->solve(mush);
+    Solver<Isearchable<pair<int,int>>*, string> * solverSearcherTobeSolver =
+            new SearchSolver< string,pair<int,int>>(searcher);
+    string answer=solverSearcherTobeSolver->solve(mush);
 
-    for(Node<pair<int,int>>* node: answer) {
-        cout<<node->getNodeData().first <<" "<< node->getNodeData().second<<"\n";
-    }
-
+    cout<<endl<<answer;
     pthread_exit(nullptr);
    // return 0;
 }

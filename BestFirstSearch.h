@@ -13,7 +13,7 @@
 #include <unordered_set>
 
 template <class T>
-class BestFirstSearch : public Searcher<vector<Node<T> *>,T> {
+class BestFirstSearch : public Searcher<string,T> {
 
 
     vector<Node<T>*> backTrace(Node<T>* goalState) {
@@ -32,8 +32,28 @@ class BestFirstSearch : public Searcher<vector<Node<T> *>,T> {
         return upSided;
 
     }
+
+    //use only for matrixes- wont work on a graph
+    string backTracer(Node<T>* goalState)  {
+        Node<T>* current=goalState;
+        string pathToReturn="";
+        while(current->getCameFrom()!= nullptr) {
+            if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
+                pathToReturn="DOWN,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
+                pathToReturn="UP,"+pathToReturn;
+            } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
+                pathToReturn="RIGHT,"+pathToReturn;
+            } else {
+                pathToReturn="LEFT,"+pathToReturn;
+            }
+            current=current->getCameFrom();
+        }
+        pathToReturn.erase(pathToReturn.length()-1,1);
+        return pathToReturn;
+    }
     
-    virtual vector<Node<T>*> search(Isearchable<T>* isearchable) {
+    string search(Isearchable<T>* isearchable) {
 
         this->addToOpen(isearchable->getInitialState());
         unordered_set<Node<T>*> closed;
@@ -41,7 +61,7 @@ class BestFirstSearch : public Searcher<vector<Node<T> *>,T> {
             Node<T>* n = this->popOpenList();
             closed.insert(n);
             if(n==isearchable->getGoalState()) {
-                return backTrace(n);
+                return backTracer(n);
             }
             vector<Node<T>*> vecOfNeighbors = isearchable->getAllPossibleStates(n); //each searchable (matrix, graph..) is doing it differently
             for(Node<T>* neighbor: vecOfNeighbors) {
@@ -57,7 +77,8 @@ class BestFirstSearch : public Searcher<vector<Node<T> *>,T> {
                 }
             }
         }
-        vector<Node<T>*> l;
+        //vector<Node<T>*> l;
+        string l="";
         return l;
     }
 };
