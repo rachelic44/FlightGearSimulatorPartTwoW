@@ -119,7 +119,6 @@ return top;
 */
 
     string search(Isearchable<T> *isearchable) {
-        this->restart;
         int numNodeEvaluated = 0;
         vector<Node<T> *> visitedNodes;
         stack<Node<T> *> stackNode;
@@ -135,7 +134,7 @@ return top;
             if (isearchable->getGoalState() == currentNode) {
                 cout << "dfs goal" << endl;
               //  cout<<visitedNodes.size()<<endl;
-                cout<<this->getNumberOfNodesEvaluated()<<endl;
+                cout<<"evaluated"<<this->getNumberOfNodesEvaluated()<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);

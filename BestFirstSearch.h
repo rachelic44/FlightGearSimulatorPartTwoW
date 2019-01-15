@@ -37,6 +37,7 @@ class BestFirstSearch : public Searcher<string,T> {
     string backTracer(Node<T>* goalState)  {
         Node<T>* current=goalState;
         string pathToReturn="";
+        cout<<"the weight"<<current->getCost()<<endl;
         while(current->getCameFrom()!= NULL) {
 
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {

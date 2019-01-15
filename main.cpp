@@ -25,7 +25,7 @@
 using namespace std;
 
 CashMap *CashMap::map_instance = NULL;
-unordered_map<string, string> *CashMap::theCashMap = NULL;
+unordered_map<string,string> *CashMap::theCashMap = NULL;
 
 #include "SearchSolver.h"
 #include "BFS.h"
@@ -39,7 +39,7 @@ int main() {
        ISearcher< vector<Node<pair<int ,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
       // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
-       Solver<Isearchable<pair<int,int>>*, vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
+       Solver<Isearchable<pair<int,int>>*,vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
                new SearchSolver< vector<Node<pair<int,int>>*>,pair<int,int>>(searcher);
        vector<Node<pair<int,int>>*> answer=solverSearcherTobeSolver->solve(mush);
 
@@ -87,51 +87,56 @@ int main() {
 
 
 
+/*
+     vector<string> vector1={ "4, 2, 9, 5, 7, 8, 7, 6, 3, 7, 8",
+                              "4, 8,10, 8, 1, 8, 5, 5, 7, 8, 4",
+                              "4, 5, 2, 8, 1, 1, 9, 3, 3, 8, 7",
+                              "3, 3, 6, 2, 8, 9, 6, 8, 3, 5, 7",
+                              "8, 3, 7, 3, 7,10, 4, 8, 9, 1, 1",
+                              "7, 3, 2, 3, 5, 8, 2, 1, 6, 8, 9",
+                              "6, 9, 8, 1,10, 3, 9, 8, 3, 4, 8",
+                              "10, 8, 8, 2, 3, 8, 8,10,10, 2, 7",
+                              "5, 7, 8, 8, 8, 8, 8, 3, 4, 5, 1",
+                              "7, 7, 5,10, 8,10, 1, 6, 9, 9, 1",
+                              "5,10, 1,10, 7, 7, 3,10, 8, 8, 6"};
 
-  /*   vector<string> vector1={"1,1,0,3,2,3,2",
-                             "1,1,0,3,2,3,2",
-                             "1,1,0,0,0,0,2",
-                             "1,1,2,3,2,0,2",
-                             "1,1,2,3,2,0,2",
-                             "1,1,2,3,2,0,2",
-                             "1,1,2,3,2,0,2",
-                             "1,1,2,3,2,0,2"};
-     string s1="0,0";
-     string s2="7,6";
+
+     string s1="3,4";
+     string s2="7,7";
      Isearchable<pair<int,int>> * mush=new Matrix(vector1,s1,s2);
      // BestFirstSearch bestFirstSearch;
-          ISearcher< string, pair<int,int>> *searcher= new Astar<pair<int,int>>();
+          ISearcher< string,pair<int,int>> *searcher= new Astar<pair<int,int>>();
      // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
-     Solver<Isearchable<pair<int,int>>*, string> * solverSearcherTobeSolver =
+     Solver<Isearchable<pair<int,int>>*,string> * solverSearcherTobeSolver =
              new SearchSolver< string,pair<int,int>>(searcher);
      string answer=solverSearcherTobeSolver->solve(mush);
 
-     cout<<endl<<answer;*/
+     cout<<endl<<answer;
 
 
 
-
+*/
 
 
 
 
     MyParallelServer myParallelServer;
-    CasheManager<string, string> *fileCasheManager = new FileCasheManager();
+    CasheManager<string,string> *fileCasheManager = new FileCasheManager();
 
-    ISearcher<string, pair<int, int>> *searcher = new BestFirstSearch<pair<int, int>>();
+    ISearcher<string,pair<int,int>> *searcher = new BestFirstSearch<pair<int,int>>();
     // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
-    Solver<Isearchable<pair<int, int>> *, string> *solverSearcherTobeSolver =
-            new SearchSolver<string, pair<int, int>>(searcher);
+    Solver<Isearchable<pair<int,int>> *,string> *solverSearcherTobeSolver =
+            new SearchSolver<string,pair<int,int>>(searcher);
 
 
     cout << "hello main" << endl;
     sleep(1);
 
     //   MyClientHandler<string> *myClientHandler=new MyClientHandler<string>(solverSearcherTobeSolver,fileCasheManager);
-    ClientHandler *testClientHandler = new MyClientHandler<pair<int, int>>(solverSearcherTobeSolver, fileCasheManager);
-    myParallelServer.open(5400, testClientHandler);
+    ClientHandler *testClientHandler = new MyClientHandler<pair<int,int>>(solverSearcherTobeSolver,fileCasheManager);
+    myParallelServer.open(5400,testClientHandler);
 
 
     cout << "hello main2" << endl;
@@ -155,7 +160,7 @@ int main() {
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc,char* argv[])
 {
     cout << argv[0] << endl;
     if (argc < 2)	{
@@ -163,17 +168,17 @@ int main(int argc, char* argv[])
         return 1;
     }
     int port = atoi(argv[1]);
-    int s = socket(AF_INET, SOCK_STREAM, 0);
+    int s = socket(AF_INET,SOCK_STREAM,0);
     struct sockaddr_in serv;
     serv.sin_addr.s_addr = INADDR_ANY;
     serv.sin_port = htons(port);
     serv.sin_family = AF_INET;
-    if (bind(s, (sockaddr *)&serv, sizeof(serv)) < 0)	{
+    if (bind(s,(sockaddr *)&serv,sizeof(serv)) < 0)	{
         cerr << "Bad!" << endl;
     }
 
     int new_sock;
-    listen(s, 5);
+    listen(s,5);
     struct sockaddr_in client;
     socklen_t clilen = sizeof(client);
 
@@ -181,9 +186,9 @@ int main(int argc, char* argv[])
     timeout.tv_sec = 10;
     timeout.tv_usec = 0;
 
-    setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+    setsockopt(s,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(timeout));
 
-    new_sock = accept(s, (struct sockaddr*)&client, &clilen);
+    new_sock = accept(s,(struct sockaddr*)&client,&clilen);
     if (new_sock < 0)	{
         if (errno == EWOULDBLOCK || errno ==EAGAIN)	{
             cout << "timeout!" << endl;

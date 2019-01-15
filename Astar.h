@@ -21,8 +21,11 @@ class Astar : public Searcher<string,T> {
         int y1 = node1->getNodeData().second;
         int x2 = node2->getNodeData().first;
         int y2 = node2->getNodeData().second;
+        int x3 = x1;
+        int y3 = y2;
+        double anwerOther = abs(y3-y1) + abs(x2-x3);
         double ans= sqrt((abs(x1 - x2)*abs(x1 - x2)) + (abs(y1 - y2)*abs(y1 - y2)));
-        return ans;
+        return anwerOther;
     }
 
     vector<Node<T>*> backTrace(Node<T>* goalState) {
@@ -46,6 +49,7 @@ class Astar : public Searcher<string,T> {
     string backTracer(Node<T>* goalState)  {
         Node<T>* current=goalState;
         string pathToReturn="";
+        cout<<"the weight"<<current->getCost()<<endl;
         while(current->getCameFrom()!= NULL) {
 
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
@@ -65,7 +69,7 @@ class Astar : public Searcher<string,T> {
     }
 
     string search(Isearchable<T>* isearchable) {
-        this->restart;
+        this->restart();
         Node<T>* startingFrom=isearchable->getInitialState();
         startingFrom->setCost(startingFrom->getCost()+huristic(startingFrom,isearchable->getGoalState()));
         this->addToOpen(startingFrom);

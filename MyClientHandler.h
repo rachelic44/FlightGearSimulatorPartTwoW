@@ -12,6 +12,7 @@
 #include "Matrix.h"
 #include "SearchSolver.h"
 #include <sstream>
+#include <mutex>
 
 using namespace posix_sockets;
 
@@ -28,7 +29,7 @@ public:
     }
 
 
-    virtual void handleClient(TCP_client client) {
+    virtual void handleClient(TCP_client client,mutex* mutex1) {
 
         string ans;
         string bufferReadFromCLient = "";
@@ -39,7 +40,7 @@ public:
             bufferReadFromCLient += client.read(1024);
             if (bufferReadFromCLient.find("end") != string::npos) {
                 bufferReadFromCLient = bufferReadFromCLient.substr(0, bufferReadFromCLient.find("end"));
-                toContinue = false; //change. keep things for the next read
+                toContinue = false;
                 if (bufferReadFromCLient == "") {
                     continue;
                 }
@@ -47,10 +48,14 @@ public:
                 continue;
             }
 
+            bufferReadFromCLient=getRiddOfSpaces(bufferReadFromCLient);
+            mutex1->lock();
             if (this->casheManager->solutionExistance(bufferReadFromCLient)) {
                 ans = casheManager->getExistSolution(bufferReadFromCLient);
-                cout<<"Good";
+                cout<<"Good"<<endl;
+                mutex1->unlock();
             } else {
+                mutex1->unlock();
                 vector<string> linesVec = splitByDelimeter(bufferReadFromCLient, "\n");
                 string target = linesVec.back();
                 linesVec.pop_back();
@@ -62,8 +67,12 @@ public:
                 cout<<"theMatrix"<< *(static_cast<Matrix *>(isearchable))<<"matrix<"<<endl;
                 stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
                 ans = this->solver->solve(isearchable);
+                mutex1->lock();
                 this->casheManager->saveSolution(stringstreamOfProblem.str(), ans);
-
+                mutex1->unlock();
+            }
+            if(ans[ans.length()-1]=='\n') {
+                ans.erase(ans.length()-1,1);
             }
             client.write(ans);
         }
@@ -79,6 +88,17 @@ public:
             string1 = string1.substr(string1.find(delimeter) + 1, string1.length() - string1.find(delimeter));
         }
         return splitted;
+    }
+
+    string getRiddOfSpaces(string & string1) {
+        string stringToReturn="";
+        for( int i=0; i<string1.length();i++) {
+            if(string1[i]==' ') {
+                continue;
+            }
+            stringToReturn+=string1[i];
+        }
+        return stringToReturn;
     }
 
 };

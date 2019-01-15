@@ -22,7 +22,14 @@
 using namespace std;
 
 template <class T>
-class BFS : public Searcher<string,T> {
+class BFS : public ISearcher<string,T> {
+
+private:
+    int numOfNodes;
+public:
+    BFS() {
+        this->numOfNodes=0;
+    }
 
     vector<Node<T> *> backTrace(Node<T> *goalState) {
         Node<T> *current = goalState;
@@ -73,8 +80,6 @@ class BFS : public Searcher<string,T> {
     }
 
     string search(Isearchable<T> *isearchable) {
-        this->restart;
-        int numnodeEval = 0;
         queue<Node<T> *> verQueue;
         vector<Node<T> *> visitedNodes;
         Node<T> *currentNode;
@@ -83,20 +88,21 @@ class BFS : public Searcher<string,T> {
         verQueue.push(isearchable->getInitialState()); // todo: add func like addToOpen????
         visitedNodes.push_back(isearchable->getInitialState());
         while (!verQueue.empty()) {
-            numnodeEval++;
             // Get next vertex
             currentNode = verQueue.front();
+            this->numOfNodes++;
 //            verQueue.pop();
 //            visitedNodes.insert(currentNode);
 
             if (isearchable->getGoalState() == currentNode) {
                 cout << "Bfs goal" << endl;
                 //cout<<visitedNodes.size()<<endl;
-                cout<<this->getNumberOfNodesEvaluated()<<endl;
+                cout<<"evaluated"<<this->getNumberOfNodesEvaluated()<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
             verQueue.pop();
+
 
             for (Node<T> *neighbor: nextPossibleStates) {
                 if (!inVisited(visitedNodes,neighbor)) {
@@ -106,36 +112,12 @@ class BFS : public Searcher<string,T> {
                 }
             }
         }
-
-        return "ffk";
+        return "";
     }
 
-
-
-
-//
-//            } else {
-//                vector<Node<T> *> nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
-//
-//                for (Node<T> *neighbor: nextPossibleStates) {
-//                    if (visitedNodes.count(neighbor) == 0) {
-//                        neighbor->setCameFrom(currentNode);
-//                        neighbor->setCost(neighbor->getStepCost()+currentNode->getCost());
-//                        verQueue.push(neighbor);
-//                    } else if(visitedNodes.count(neighbor)==0) {
-//                        if (neighbor->getCameFrom()->getCost() > currentNode->getCost()) {
-//                            neighbor->setCameFrom(currentNode);
-//                            neighbor->setCost(currentNode->getCost() + neighbor->getStepCost());
-//                        }
-//                    }
-//
-//                }
-//                return visitedNodes;
-//
-//            }
-//        }
-//    }
-
+    virtual int getNumberOfNodesEvaluated() {
+        return this->numOfNodes;
+    }
 };
 
 #endif //PROJECTPART2_BFS_H

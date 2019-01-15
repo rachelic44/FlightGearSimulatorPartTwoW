@@ -123,13 +123,13 @@ public:
                 if(node->getNodeData().second==0 && i==0) {
                     stream << node->getStepCost() ;
                 } else {
-                    stream <<" ,"<< node->getStepCost() ;
+                    stream <<","<< node->getStepCost() ;
                 }
-
             }
         }
        stream<<"\n"<<this->start->getNodeData().first<<","<<this->start->getNodeData().second;
        stream<<"\n"<<this->target->getNodeData().first<<","<<this->target->getNodeData().second;
+       stream<<"\n";
         return stream;
     }
 

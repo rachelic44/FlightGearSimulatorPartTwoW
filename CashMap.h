@@ -39,8 +39,9 @@ public:
             {
                 while ( getline (myfile,line) )
                 {
+
                     if(!(line=="$")) {
-                        whole += line;
+                        whole += line+"\n";
                     } else if(signInProblem) {
                         problem=whole;
                         whole="";
@@ -82,7 +83,11 @@ public:
 
 
        for(auto p : *this->theCashMap) {
-           myfile<<p.first<<"\n$\n"<<p.second<<"\n$\n";
+           if(p.second[p.second.length()-1]=='\n') {
+               myfile << p.first << "$\n" << p.second << "$\n";
+           } else {
+               myfile << p.first << "$\n" << p.second << "\n$\n";
+           }
        }
        myfile.close();
        /*
