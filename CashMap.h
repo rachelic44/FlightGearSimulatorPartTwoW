@@ -73,7 +73,6 @@ public:
         return pathMap[key];
     }*/
    ~CashMap(){
-      // cout<<"at cash map distructor";
 
        ofstream myfile;
      /*  if(!myfile.is_open()) {
@@ -90,16 +89,6 @@ public:
            }
        }
        myfile.close();
-       /*
-       if (myfile.is_open())
-       {
-           for(auto p : *this->theCashMap) {
-               myfile<<p.first<<"\n$\n"<<p.second<<"\n$\n";
-           }
-           myfile.close();
-       } else {
-           throw "Could not open file";
-       }*/
    }
 };
 

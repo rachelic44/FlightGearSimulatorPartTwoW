@@ -67,8 +67,6 @@ public:
             current=current->getCameFrom();
         }
         pathToReturn.erase(pathToReturn.length()-1,1);
-        // cout<<this->getNumberOfNodesEvaluated()<<endl;
-        cout<<"the weight "<<x<<endl;
         return pathToReturn;
     }
 
@@ -98,9 +96,6 @@ public:
 //            visitedNodes.insert(currentNode);
 
             if (isearchable->getGoalState() == currentNode) {
-                cout << "Bfs goal" << endl;
-                //cout<<visitedNodes.size()<<endl;
-                cout<<"evaluated"<<this->getNumberOfNodesEvaluated()<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);

@@ -14,36 +14,12 @@
 using namespace posix_sockets;
 
 
-/*
-void *threadOpen(void *params) {
-    struct serverParams *parameters = static_cast<struct serverParams *>(params);
-    TCP_server server=parameters->tcp_server;
-    TCP_client client=parameters->tcp_client;
-
-
-    while (!(*parameters->toStop)) {
-
-        if (parameters->tcp_client.getSockNumber() == -2 ) {
-            cout<<"atStop";
-            *parameters->toStop= true;
-            continue;
-        }
-
-        cout<< client.getSockNumber() << " the num"<<endl;
-        cout<<"Sending"<<endl;
-        parameters->clientHandler->handleClient(client);
-        client = server.accept();
-    }
-
-}*/
-
 void funcForThread(bool* toStop,TCP_server tcp_server,TCP_client tcp_client
         ,ClientHandler* clientHandler, mutex* mutex1) {
 
     while (!(*toStop)) {
 
         if (tcp_client.getSockNumber() == -2) {
-            cout << "atStop";
             *toStop=true;
             continue;
         }
@@ -71,7 +47,6 @@ void MySerialServer::open(int portNumber, ClientHandler* clientHandler) {
     thread1.detach();
     if(*(this->toStop)) {
         close(server.getSockNumber());
-        cout<<"ht"<<endl;
     }
 
 }

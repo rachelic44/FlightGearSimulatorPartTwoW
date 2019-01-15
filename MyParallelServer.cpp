@@ -13,8 +13,6 @@ vector<thread> vect;
 
 void threadFunc(TCP_server tcp_server,TCP_client tcp_client,ClientHandler* clientHandler, mutex* mutex1) {
     clientHandler->handleClient(tcp_client,mutex1);
-    //cout<< vecThread.back();
-   // vecThread.pop_back();
 }
 
 
@@ -33,7 +31,6 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
     while (!(*this->toStop)) {
 
         if (client.getSockNumber() == TIME_OUT) {
-            cout << "atStop";
             *toStop=true;
             continue;
         }
@@ -43,8 +40,6 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
        // thread1.detach();
         client = server.accept();
     }
-
-    cout<<"calling stop"<<endl;
   stop(server.getSockNumber()); // todo ask michael
 }
 
@@ -54,6 +49,5 @@ void MyParallelServer::stop(int serverNumber) {
         vect.back().join();
         vect.pop_back();
     }
-   // close(serverNumber);
 
 }

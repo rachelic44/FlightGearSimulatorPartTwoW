@@ -26,8 +26,8 @@ public:
     virtual void open(int portNumber, ClientHandler* clientHandler);
     virtual void stop(int);
     //  void funcForThread(TCP_server tcp_server,TCP_client tcp_client,ClientHandler* clientHandler);
+
     ~MyParallelServer(){
-        cout<<"hello!!!!!!!!!!!!!!";
         delete CashMap::instance();
     }
 };

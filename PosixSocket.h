@@ -190,9 +190,7 @@ namespace posix_sockets
                 // eagain and ewouldblock are errors normally hapenning on timeouts
                 if (errno == EAGAIN || errno == EWOULDBLOCK)	{
                     return TCP_client(TIME_OUT);
-                }	else	{
-              //      cout<<"G";
-                   // return TCP_client(TIME_OUT);
+                } else {
                     throw std::system_error(std::error_code(errno, std::generic_category()), "error on accept");
                 }
             }

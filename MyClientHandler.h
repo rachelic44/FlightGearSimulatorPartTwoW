@@ -37,7 +37,6 @@ public:
         client.settimeout(0, 0);
         bool toContinue = true;
         while (toContinue) {
-            cout << bufferReadFromCLient << endl;
             bufferReadFromCLient += client.read(1024);
             if (bufferReadFromCLient.find("end") != string::npos) {
                 bufferReadFromCLient = bufferReadFromCLient.substr(0, bufferReadFromCLient.find("end"));
@@ -53,7 +52,6 @@ public:
             mutex1->lock();
             if (this->casheManager->solutionExistance(bufferReadFromCLient)) {
                 ans = casheManager->getExistSolution(bufferReadFromCLient);
-                cout<<"Good"<<endl;
                 mutex1->unlock();
             } else {
                 mutex1->unlock();
@@ -65,7 +63,6 @@ public:
                 Isearchable<T> *isearchable = new Matrix(linesVec, start, target);
 
                 stringstream stringstreamOfProblem;
-                cout<<"theMatrix"<< *(static_cast<Matrix *>(isearchable))<<"matrix<"<<endl;
                 stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
                 mutex1->lock();
                 ans = this->solver->solve(isearchable);

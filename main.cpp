@@ -1,6 +1,4 @@
 #include <iostream>
-#include "A.h"
-#include "B.h"
 #include <unordered_map>
 #include <map>
 #include <iostream>
@@ -9,7 +7,6 @@
 #include "Graph.h"
 #include <queue>
 #include "BestFirstSearch.h"
-#include "C.h"
 #include "Matrix.h"
 #include "MySerialServer.h"
 #include "MyTestClientHandler.h"
@@ -31,115 +28,21 @@ unordered_map<string,string> *CashMap::theCashMap = NULL;
 #include "BFS.h"
 #include "DFS.h"
 
-int main() {
-    /*
-
-       Isearchable<pair<int,int>> * mush=new Matrix(vec,A1,A54);
-      // BestFirstSearch bestFirstSearch;
-       ISearcher< vector<Node<pair<int ,int>>*>,pair<int,int>> *searcher= new BestFirstSearch<pair<int,int>>();
-      // vector<Node<pair<int,int>>*> answer = searcher->search(m);
-
-       Solver<Isearchable<pair<int,int>>*,vector<Node<pair<int,int>>*>> * solverSearcherTobeSolver =
-               new SearchSolver< vector<Node<pair<int,int>>*>,pair<int,int>>(searcher);
-       vector<Node<pair<int,int>>*> answer=solverSearcherTobeSolver->solve(mush);
-
-        Matrix* mm=new Matrix(vec,A1,A54);
-      // cout<<*mm;
-       cout<< *(static_cast<Matrix*>(mush));
-       Node<int>* np;
-       int i=6;
-
-
-       ifstream myfile ("files.txt");
-       string line;
-       string whole="";
-       if(!myfile.is_open()) {
-           myfile.open("files.txt",fstream::app | fstream::in);
-       }
-       if (myfile.is_open()) {
-
-           A s("");
-           myfile>>s;
-           cout<<s;
-           myfile.close();
-       }*/
-
-
-/*
-  MySerialServer mySerialServer;
-  MyParallelServer myParallelServer;
-  Solver<string,string> * solver=new ReverseSolver();
-  cout<<"hello main"<<endl;
-  sleep(1);
-  ClientHandler* testClientHandler=new MyTestClientHandler(solver);
-  myParallelServer.open(5400,testClientHandler);
-  /*while(true) {
-    cout<<"hello main"<<endl;
-    sleep(1);
-  }*/
-    // cout<<"hello main"<<endl;
-//string s="123end2";
-//cout<<s.substr(0,s.find("end"));
-
-
-
-
-
-
-
-/*
-     vector<string> vector1={ "4, 2, 9, 5, 7, 8, 7, 6, 3, 7, 8",
-                              "4, 8,10, 8, 1, 8, 5, 5, 7, 8, 4",
-                              "4, 5, 2, 8, 1, 1, 9, 3, 3, 8, 7",
-                              "3, 3, 6, 2, 8, 9, 6, 8, 3, 5, 7",
-                              "8, 3, 7, 3, 7,10, 4, 8, 9, 1, 1",
-                              "7, 3, 2, 3, 5, 8, 2, 1, 6, 8, 9",
-                              "6, 9, 8, 1,10, 3, 9, 8, 3, 4, 8",
-                              "10, 8, 8, 2, 3, 8, 8,10,10, 2, 7",
-                              "5, 7, 8, 8, 8, 8, 8, 3, 4, 5, 1",
-                              "7, 7, 5,10, 8,10, 1, 6, 9, 9, 1",
-                              "5,10, 1,10, 7, 7, 3,10, 8, 8, 6"};
-
-
-     string s1="3,4";
-     string s2="7,7";
-     Isearchable<pair<int,int>> * mush=new Matrix(vector1,s1,s2);
-     // BestFirstSearch bestFirstSearch;
-          ISearcher< string,pair<int,int>> *searcher= new Astar<pair<int,int>>();
-     // vector<Node<pair<int,int>>*> answer = searcher->search(m);
-
-     Solver<Isearchable<pair<int,int>>*,string> * solverSearcherTobeSolver =
-             new SearchSolver< string,pair<int,int>>(searcher);
-     string answer=solverSearcherTobeSolver->solve(mush);
-
-     cout<<endl<<answer;
-
-
-
-*/
-
-
+int main(int args,char **argv) {
 
 
     MyParallelServer myParallelServer;
     CasheManager<string,string> *fileCasheManager = new FileCasheManager();
 
-    ISearcher<string,pair<int,int>> *searcher = new BFS<pair<int,int>>();
-    // vector<Node<pair<int,int>>*> answer = searcher->search(m);
+    ISearcher<string,pair<int,int>> *searcher = new Astar<pair<int,int>>();
 
     Solver<Isearchable<pair<int,int>> *,string> *solverSearcherTobeSolver =
             new SearchSolver<string,pair<int,int>>(searcher);
 
-
-    cout << "hello main" << endl;
-    sleep(1);
-
-    //   MyClientHandler<string> *myClientHandler=new MyClientHandler<string>(solverSearcherTobeSolver,fileCasheManager);
     ClientHandler *testClientHandler = new MyClientHandler<pair<int,int>>(solverSearcherTobeSolver,fileCasheManager);
-    myParallelServer.open(5400,testClientHandler);
+    myParallelServer.open(stoi(argv[1]),testClientHandler);
 
 
-    cout << "hello main2" << endl;
 
 
 
@@ -150,58 +53,3 @@ int main() {
 
 
 
-/*
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <errno.h>
-#include <cstdlib>
-#include <iostream>
-
-using namespace std;
-
-int main(int argc,char* argv[])
-{
-    cout << argv[0] << endl;
-    if (argc < 2)	{
-        cout << "Usage: <prog> <port>" << endl;
-        return 1;
-    }
-    int port = atoi(argv[1]);
-    int s = socket(AF_INET,SOCK_STREAM,0);
-    struct sockaddr_in serv;
-    serv.sin_addr.s_addr = INADDR_ANY;
-    serv.sin_port = htons(port);
-    serv.sin_family = AF_INET;
-    if (bind(s,(sockaddr *)&serv,sizeof(serv)) < 0)	{
-        cerr << "Bad!" << endl;
-    }
-
-    int new_sock;
-    listen(s,5);
-    struct sockaddr_in client;
-    socklen_t clilen = sizeof(client);
-
-    timeval timeout;
-    timeout.tv_sec = 10;
-    timeout.tv_usec = 0;
-
-    setsockopt(s,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout,sizeof(timeout));
-
-    new_sock = accept(s,(struct sockaddr*)&client,&clilen);
-    if (new_sock < 0)	{
-        if (errno == EWOULDBLOCK || errno ==EAGAIN)	{
-            cout << "timeout!" << endl;
-            exit(2);
-        }	else	{
-            perror("other error");
-            exit(3);
-        }
-    }
-    cout << new_sock << endl;
-    cout << s << endl;
-    close(new_sock);
-    close(s);
-    return 0;
-}
-*/

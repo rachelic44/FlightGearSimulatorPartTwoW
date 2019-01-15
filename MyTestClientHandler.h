@@ -40,9 +40,7 @@ public:
                 if(bufferReadFromCLient=="") {
                     continue;
                 }
-                cout<<"Was at non"<<endl;
             }
-            cout << "here2" << endl;
             string ans = this->solver->solve(bufferReadFromCLient);
             client.write(ans);
         }

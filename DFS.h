@@ -67,7 +67,6 @@ public:
             x+=current->getStepCost();
             current=current->getCameFrom();
         }
-        cout<<"the weight "<<x<<endl;
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }
@@ -135,9 +134,6 @@ return top;
             currentNode = stackNode.top();
 
             if (isearchable->getGoalState() == currentNode) {
-                cout << "dfs goal" << endl;
-              //  cout<<visitedNodes.size()<<endl;
-                cout<<"evaluated"<<this->getNumberOfNodesEvaluated()<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
