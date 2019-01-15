@@ -53,6 +53,7 @@ public:
     string backTracer(Node<T>* goalState)  {
         Node<T>* current=goalState;
         string pathToReturn="";
+        int x=0;
         while(current->getCameFrom()!= nullptr) {
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
                 pathToReturn="DOWN,"+pathToReturn;
@@ -63,8 +64,10 @@ public:
             } else {
                 pathToReturn="LEFT,"+pathToReturn;
             }
+            x+=current->getStepCost();
             current=current->getCameFrom();
         }
+        cout<<"the weight "<<x<<endl;
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }

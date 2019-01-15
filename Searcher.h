@@ -1,3 +1,6 @@
+
+
+
 //
 // Created by user on 08/01/19.
 //
@@ -52,8 +55,12 @@ public:
 
     virtual void restart (){
         this->evaluateNodes=0;
+        while (this->priorityHeap.size()> 0) {
+            this->priorityHeap.pop();
+        }
     }
 
 };
 
 #endif //PROJECTPART2_SEARCHER_H
+

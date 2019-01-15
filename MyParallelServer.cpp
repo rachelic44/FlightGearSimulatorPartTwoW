@@ -29,6 +29,7 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
     *(this->toStop)= false;
     mutex* mutex1=new mutex();
 
+
     while (!(*this->toStop)) {
 
         if (client.getSockNumber() == TIME_OUT) {

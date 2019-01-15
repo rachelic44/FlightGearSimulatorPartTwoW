@@ -124,7 +124,7 @@ int main() {
     MyParallelServer myParallelServer;
     CasheManager<string,string> *fileCasheManager = new FileCasheManager();
 
-    ISearcher<string,pair<int,int>> *searcher = new BestFirstSearch<pair<int,int>>();
+    ISearcher<string,pair<int,int>> *searcher = new BFS<pair<int,int>>();
     // vector<Node<pair<int,int>>*> answer = searcher->search(m);
 
     Solver<Isearchable<pair<int,int>> *,string> *solverSearcherTobeSolver =

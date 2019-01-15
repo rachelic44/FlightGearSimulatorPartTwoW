@@ -1,3 +1,4 @@
+
 //
 // Created by user on 08/01/19.
 //
@@ -55,7 +56,7 @@ class BestFirstSearch : public Searcher<string,T> {
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }
-    
+
     string search(Isearchable<T>* isearchable) {
 
         this->restart();

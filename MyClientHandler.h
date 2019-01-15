@@ -31,6 +31,7 @@ public:
 
     virtual void handleClient(TCP_client client,mutex* mutex1) {
 
+
         string ans;
         string bufferReadFromCLient = "";
         client.settimeout(0, 0);
@@ -66,8 +67,8 @@ public:
                 stringstream stringstreamOfProblem;
                 cout<<"theMatrix"<< *(static_cast<Matrix *>(isearchable))<<"matrix<"<<endl;
                 stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
-                ans = this->solver->solve(isearchable);
                 mutex1->lock();
+                ans = this->solver->solve(isearchable);
                 this->casheManager->saveSolution(stringstreamOfProblem.str(), ans);
                 mutex1->unlock();
             }
