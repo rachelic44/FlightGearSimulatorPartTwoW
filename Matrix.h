@@ -128,6 +128,8 @@ public:
 
             }
         }
+       stream<<"\n"<<this->start->getNodeData().first<<","<<this->start->getNodeData().second;
+       stream<<"\n"<<this->target->getNodeData().first<<","<<this->target->getNodeData().second;
         return stream;
     }
 

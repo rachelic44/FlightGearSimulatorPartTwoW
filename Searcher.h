@@ -50,6 +50,10 @@ public:
 
     virtual Solution search(Isearchable<T>* isearchable) = 0;
 
+    virtual void restart (){
+        this->evaluateNodes=0;
+    }
+
 };
 
 #endif //PROJECTPART2_SEARCHER_H

@@ -78,7 +78,7 @@ public:
      /*  if(!myfile.is_open()) {
            myfile.open(FILE_NAME,fstream::app | fstream::in);
        }*/
-       myfile.open(FILE_NAME,std::ios::app);
+       myfile.open(FILE_NAME);
 
 
        for(auto p : *this->theCashMap) {

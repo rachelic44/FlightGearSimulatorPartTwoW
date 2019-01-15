@@ -57,6 +57,7 @@ class BestFirstSearch : public Searcher<string,T> {
     
     string search(Isearchable<T>* isearchable) {
 
+        this->restart();
         this->addToOpen(isearchable->getInitialState());
         unordered_set<Node<T>*> closed;
         while(this->getPriorityQueueSize()>0) {

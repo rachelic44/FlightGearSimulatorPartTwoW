@@ -73,6 +73,7 @@ class BFS : public Searcher<string,T> {
     }
 
     string search(Isearchable<T> *isearchable) {
+        this->restart;
         int numnodeEval = 0;
         queue<Node<T> *> verQueue;
         vector<Node<T> *> visitedNodes;

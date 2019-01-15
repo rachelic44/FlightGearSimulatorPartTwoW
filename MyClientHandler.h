@@ -59,6 +59,7 @@ public:
                 Isearchable<T> *isearchable = new Matrix(linesVec, start, target);
 
                 stringstream stringstreamOfProblem;
+                cout<<"theMatrix"<< *(static_cast<Matrix *>(isearchable))<<"matrix<"<<endl;
                 stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
                 ans = this->solver->solve(isearchable);
                 this->casheManager->saveSolution(stringstreamOfProblem.str(), ans);

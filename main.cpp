@@ -138,8 +138,9 @@ int main() {
 
 
 
-    pthread_exit(nullptr);
-    // return 0;
+
+   // pthread_exit(nullptr);
+    return 0;
 }
 
 

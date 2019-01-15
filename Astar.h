@@ -65,7 +65,7 @@ class Astar : public Searcher<string,T> {
     }
 
     string search(Isearchable<T>* isearchable) {
-
+        this->restart;
         Node<T>* startingFrom=isearchable->getInitialState();
         startingFrom->setCost(startingFrom->getCost()+huristic(startingFrom,isearchable->getGoalState()));
         this->addToOpen(startingFrom);

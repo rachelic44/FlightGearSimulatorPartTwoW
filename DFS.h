@@ -119,6 +119,7 @@ return top;
 */
 
     string search(Isearchable<T> *isearchable) {
+        this->restart;
         int numNodeEvaluated = 0;
         vector<Node<T> *> visitedNodes;
         stack<Node<T> *> stackNode;

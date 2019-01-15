@@ -6,6 +6,7 @@
 #define PROJECTPART2_MYPARALLELSERVER_H
 
 #include "Server.h"
+#include "CashMap.h"
 #include <iostream>
 #include <strings.h>
 #include <vector>
@@ -25,6 +26,10 @@ public:
     virtual void open(int portNumber, ClientHandler* clientHandler);
     virtual void stop(int);
     //  void funcForThread(TCP_server tcp_server,TCP_client tcp_client,ClientHandler* clientHandler);
+    ~MyParallelServer(){
+        cout<<"hello!!!!!!!!!!!!!!";
+        delete CashMap::instance();
+    }
 };
 
 #endif //PROJECTPART2_MYPARALLELSERVER_H
