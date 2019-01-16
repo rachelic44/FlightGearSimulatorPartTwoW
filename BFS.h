@@ -55,13 +55,13 @@ public:
         int x=0;
         while(current->getCameFrom()!= nullptr) {
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
-                pathToReturn="DOWN,"+pathToReturn;
+                pathToReturn="Down,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
-                pathToReturn="UP,"+pathToReturn;
+                pathToReturn="Up,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
-                pathToReturn="RIGHT,"+pathToReturn;
+                pathToReturn="Right,"+pathToReturn;
             } else {
-                pathToReturn="LEFT,"+pathToReturn;
+                pathToReturn="Left,"+pathToReturn;
             }
             x+=current->getStepCost();
             current=current->getCameFrom();

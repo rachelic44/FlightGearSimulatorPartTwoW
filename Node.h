@@ -23,10 +23,7 @@ public:
     Node(T data) {
         this->nodeData=data;
     }
-    Node<T>(T data, Node<T>*nodeFrom){
-        this->nodeData=data;
-        this->cameFrom=nodeFrom;
-    }
+
 
     void setStepCost(double stepCost){
         this->steppCost=stepCost;

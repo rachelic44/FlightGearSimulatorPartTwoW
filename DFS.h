@@ -56,18 +56,17 @@ public:
         int x=0;
         while(current->getCameFrom()!= nullptr) {
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
-                pathToReturn="DOWN,"+pathToReturn;
+                pathToReturn="Down,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
-                pathToReturn="UP,"+pathToReturn;
+                pathToReturn="Up,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
-                pathToReturn="RIGHT,"+pathToReturn;
+                pathToReturn="Right,"+pathToReturn;
             } else {
-                pathToReturn="LEFT,"+pathToReturn;
+                pathToReturn="Left,"+pathToReturn;
             }
             x+=current->getStepCost();
             current=current->getCameFrom();
         }
-        cout<<x<<"t"<<endl;
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }
@@ -83,43 +82,6 @@ public:
 
 
 
-    /*
-
-    State<P>* current = searchable->getInitialState();
-State<P>* goal = searchable->getGoalState();
-std::stack<State<P>*> stack;
-stack.push(current);
-current->setVisited(true);
-State<P>* top;
-
-
-
-
-while (!stack.empty()) {
-    this->numberOfNodesEvaluated++;
-    top = stack.top();
-    top->setVisited(true);
-    stack.pop();
-
-    if (top->Equals(searchable->getGoalState())) {
-        return goal;
-    }
-
-    std::vector<State<P>*> possibilities = searchable->getAllPossibleStates(top);
-    typename std::vector<State<P>*>::iterator itor;
-
-    for (itor = possibilities.begin(); itor != possibilities.end(); itor++) {
-        if (!(*itor)->isVisited()) { //add every adjacent that's not visited to the stack.
-            stack.push(*itor);
-            (*itor)->setCameFrom(top);
-        }
-    }
-}
-
-return top;
-}
-
-*/
 
     string search(Isearchable<T> *isearchable) {
         int numNodeEvaluated = 0;
@@ -135,7 +97,6 @@ return top;
             currentNode = stackNode.top();
 
             if (isearchable->getGoalState() == currentNode) {
-                cout<<"n"<<numNodeEvaluated<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);
@@ -152,7 +113,7 @@ return top;
             }
         }
 
-        return "string";
+        return "";
     }
 
     virtual int getNumberOfNodesEvaluated() {

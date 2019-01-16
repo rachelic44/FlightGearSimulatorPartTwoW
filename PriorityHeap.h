@@ -80,8 +80,8 @@ InputIterator finder (InputIterator first, InputIterator last, const T& val)
 template <class T>
 struct greaterThan : binary_function <T, T, bool> {
     bool operator() (const T& x, const T& y) const {
-        return *x>*y;
-        //return x->getNodeData()<y->getNodeData();
+       // return *x>*y;
+        return x->getCost()>y->getCost();
     }
 };
 

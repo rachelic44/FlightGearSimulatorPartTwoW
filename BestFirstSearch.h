@@ -38,19 +38,21 @@ class BestFirstSearch : public Searcher<string,T> {
     string backTracer(Node<T>* goalState)  {
         Node<T>* current=goalState;
         string pathToReturn="";
+        cout<<"evalauated"<<this->getNumberOfNodesEvaluated()<<endl;
         while(current->getCameFrom()!= NULL) {
 
             if(current->getCameFrom()->getNodeData().first < current->getNodeData().first) {
-                pathToReturn="DOWN,"+pathToReturn;
+                pathToReturn="Down,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().first > current->getNodeData().first) {
-                pathToReturn="UP,"+pathToReturn;
+                pathToReturn="Up,"+pathToReturn;
             } else  if(current->getCameFrom()->getNodeData().second < current->getNodeData().second) {
-                pathToReturn="RIGHT,"+pathToReturn;
+                pathToReturn="Right,"+pathToReturn;
             } else {
-                pathToReturn="LEFT,"+pathToReturn;
+                pathToReturn="Left,"+pathToReturn;
             }
             current=current->getCameFrom();
         }
+        cout<<endl<<goalState->getCost()<<"tt"<<endl;
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }
