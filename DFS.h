@@ -67,6 +67,7 @@ public:
             x+=current->getStepCost();
             current=current->getCameFrom();
         }
+        cout<<x<<"t"<<endl;
         pathToReturn.erase(pathToReturn.length()-1,1);
         return pathToReturn;
     }
@@ -134,6 +135,7 @@ return top;
             currentNode = stackNode.top();
 
             if (isearchable->getGoalState() == currentNode) {
+                cout<<"n"<<numNodeEvaluated<<endl;
                 return backTracer(currentNode);
             }
             nextPossibleStates = isearchable->getAllPossibleStates(currentNode);

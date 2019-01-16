@@ -35,9 +35,8 @@ public:
         return cashMap->at(problem);
     }
     virtual void saveSolution(string problem, string solution) {
+        cout<<problem<<endl;
         unordered_map<string,string>* cashMap = CashMap::instance()->getMap();
-        stringstream stringstream1;
-        stringstream1<<problem;
         cashMap->insert({problem,solution});
 
     }

@@ -18,6 +18,7 @@ using namespace server_side;
 class MyParallelServer : public Server {
 private:
     vector<int> clientsVec;
+    mutex* mutex1;
     bool *toStop;
 public:
     MyParallelServer() {
@@ -28,7 +29,8 @@ public:
     //  void funcForThread(TCP_server tcp_server,TCP_client tcp_client,ClientHandler* clientHandler);
 
     ~MyParallelServer(){
-        delete CashMap::instance();
+        delete this->mutex1;
+        delete this->toStop;
     }
 };
 

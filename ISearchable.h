@@ -13,6 +13,8 @@ public:
     virtual Node<T>* getInitialState()=0;
     virtual Node<T>* getGoalState()=0;
     virtual std::vector<Node<T>*> getAllPossibleStates(Node<T>* s)=0;
+    virtual string to_strings() = 0;
+    virtual ~Isearchable() {}
  //   virtual ostream &operator<<(ostream &stream)=0;
    //  friend ostream &operator<<(ostream &ostream1, Isearchable<T>* infinit1) {}
 };

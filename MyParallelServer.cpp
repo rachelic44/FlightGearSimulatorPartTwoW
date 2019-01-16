@@ -23,10 +23,10 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
     server.listen(SOMAXCONN);
     server.settimeout(0,0);
     TCP_client client=server.accept();
-    server.settimeout(1,0);
+    server.settimeout(15,0);
     *(this->toStop)= false;
     mutex* mutex1=new mutex();
-
+    this->mutex1=mutex1;
 
     while (!(*this->toStop)) {
 

@@ -113,7 +113,7 @@ public:
         otherMatrix >> istream1;
     }*/
 
-    ostream &operator<<(ostream &stream) {
+    /*ostream &operator<<(ostream &stream) {
         int i=0;
         for(Node<pair<int,int>>* node:this->nodesVector) {
             if(node->getNodeData().first!=i) {
@@ -135,7 +135,7 @@ public:
 
     friend ostream &operator<<(ostream &ostream1, Matrix infinit1) {
         return infinit1 << (ostream1);
-    }
+    }*/
 
    /* pair<int, int> bringANode(string string1,string delimeter) {
         if(string1.find(delimeter)!= string::npos) {
@@ -144,6 +144,37 @@ public:
             string1=string1.substr(0,string1.find(delimeter));
         }
     }*/
+
+
+   virtual string to_strings() {
+       int i=0;
+       string stringToRet="";
+       for(Node<pair<int,int>>* node:this->nodesVector) {
+           if(node->getNodeData().first!=i) {
+               stringToRet+= "\n" + to_string((int)node->getStepCost());
+               i++;
+           } else {
+               if(node->getNodeData().second==0 && i==0) {
+                   stringToRet+= to_string((int)node->getStepCost()) ;
+               } else {
+                   stringToRet+= +","+ to_string((int)node->getStepCost()) ;
+               }
+           }
+       }
+       stringToRet+="\n"+to_string(this->start->getNodeData().first)+","+
+               to_string(this->start->getNodeData().second);
+       stringToRet+="\n"+to_string(this->target->getNodeData().first)+","+
+               to_string(this->target->getNodeData().second);
+       stringToRet+="\n";
+       return  stringToRet;
+   }
+
+   ~Matrix() {
+       cout<<"G";
+       for(Node<pair<int,int>>* node :this->nodesVector) {
+           delete node;
+       }
+   }
 
 };
 

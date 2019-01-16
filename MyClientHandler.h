@@ -52,6 +52,7 @@ public:
             mutex1->lock();
             if (this->casheManager->solutionExistance(bufferReadFromCLient)) {
                 ans = casheManager->getExistSolution(bufferReadFromCLient);
+                cout<<"yay"<<endl;
                 mutex1->unlock();
             } else {
                 mutex1->unlock();
@@ -61,13 +62,11 @@ public:
                 string start = linesVec.back();
                 linesVec.pop_back();
                 Isearchable<T> *isearchable = new Matrix(linesVec, start, target);
-
-                stringstream stringstreamOfProblem;
-                stringstreamOfProblem << *(static_cast<Matrix *>(isearchable));
                 mutex1->lock();
                 ans = this->solver->solve(isearchable);
-                this->casheManager->saveSolution(stringstreamOfProblem.str(), ans);
+                this->casheManager->saveSolution(isearchable->to_strings(), ans);
                 mutex1->unlock();
+                delete isearchable;
             }
             if(ans[ans.length()-1]=='\n') {
                 ans.erase(ans.length()-1,1);

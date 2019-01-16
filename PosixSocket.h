@@ -122,7 +122,7 @@ namespace posix_sockets
 
             buffer[read_len] = '\0';
             std::string output = std::string(buffer);
-            delete buffer;
+            delete[] buffer;
             return output;
         }
 

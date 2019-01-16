@@ -34,7 +34,7 @@ int main(int args,char **argv) {
     MyParallelServer myParallelServer;
     CasheManager<string,string> *fileCasheManager = new FileCasheManager();
 
-    ISearcher<string,pair<int,int>> *searcher = new Astar<pair<int,int>>();
+    ISearcher<string,pair<int,int>> *searcher = new DFS<pair<int,int>>();
 
     Solver<Isearchable<pair<int,int>> *,string> *solverSearcherTobeSolver =
             new SearchSolver<string,pair<int,int>>(searcher);
@@ -42,9 +42,16 @@ int main(int args,char **argv) {
     ClientHandler *testClientHandler = new MyClientHandler<pair<int,int>>(solverSearcherTobeSolver,fileCasheManager);
     myParallelServer.open(stoi(argv[1]),testClientHandler);
 
+    delete fileCasheManager;
+    delete searcher;
+    delete solverSearcherTobeSolver;
+    delete testClientHandler;
 
 
 
+
+  // delete CashMap::instance()->getMap();
+    delete CashMap::instance();
 
 
    // pthread_exit(nullptr);
